@@ -76,15 +76,15 @@ weight = 2
 
 # Social media links which shows up on site header.
 # Uses feather icons for icons. You can [search icon names from here](https://feathericons.com/).
-[[params.social]]
-name = "Github"
-icon = "github"
-url = "https://github.com/rhotter"
+# [[params.social]]
+# name = "Github"
+# icon = "github"
+# url = "https://github.com/rhotter"
 
-[[params.social]]
-name = "Twitter"
-icon = "twitter"
-url = "https://twitter.com/raffi_hotter"
+# [[params.social]]
+# name = "Twitter"
+# icon = "twitter"
+# url = "https://twitter.com/raffi_hotter"
 
 # Enable tags.
 [taxonomies]
