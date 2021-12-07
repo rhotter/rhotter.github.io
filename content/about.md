@@ -18,11 +18,11 @@ Well, you asked for it!
 </details>
 
 
-**Friends with websites**
+<!-- **Friends with websites**
 * [Santi Aranguri](https://aranguri.wordpress.com/)
 * [Anna Brandenberger](https://abrandenberger.github.io)
 * [Marley Xiong](https://marleyx.com)
-* [School 2.0 folks](https://bio.school2point0.com)!
+* [School 2.0 folks](https://bio.school2point0.com)! -->
 
 **Favourite blogs**
 * [Derek Sivers](https://sive.rs/)
