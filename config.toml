@@ -1,4 +1,4 @@
-baseURL = 'https://www.rhotter.github.io/'
+baseURL = 'https://rhotter.github.io/'
 languageCode = 'en-us'
 title = 'Raffi Hotter'
 theme = "ezhil"
