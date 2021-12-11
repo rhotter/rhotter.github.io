@@ -25,6 +25,7 @@ This list isn't for you if you don't like dark and thick hot chocolate.
 ### San Francisco Bay Area
 * Dandelion Chocolate (order drinking chocolate if you're brave)
 * Cafe Venetia
+* The Center SF
 
 ---
 Have any to add? I'd love to [hear from you](mailto:raphael.hotter@gmail.com)!
