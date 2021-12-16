@@ -5,7 +5,7 @@ date: 2021-12-02T18:19:31-05:00
 type: "page"
 ---
 
-Hello! I'm a full-time hot chocolate enjoyer, part-time brain hacker.
+Hello! I'm a full-time hot chocolate enjoyer, part-time brain hacker. I don't know who I am, so this is the best I've got for now.
 
 [Reach out](mailto:raphael.hotter@gmail.com?subject=Hello!!) to talk about chocolate, brains, or math.
 
@@ -25,13 +25,12 @@ Well, you asked for it!
 * [School 2.0 folks](https://bio.school2point0.com)! -->
 
 **Favourite blogs**
-* [Derek Sivers](https://sive.rs/)
-* [A Slice of My Mind](https://mindslice.home.blog/)
 * [Celine Halioua](https://www.celinehh.com/)
-* [Linus Lee](https://thesephist.com/)
-* [Terence Tao](https://terrytao.wordpress.com/)
-* [Math3ma](https://www.math3ma.com/)
 * [Christopher Olah](https://colah.github.io)
+* [Derek Sivers](https://sive.rs/)
+* [Linus Lee](https://thesephist.com/)
+* [Math3ma](https://www.math3ma.com/)
+* [Terence Tao](https://terrytao.wordpress.com/)
 
 **Favourite theorem/lemma:** [Johnson-Lindenstrauss lemma](https://en.m.wikipedia.org/wiki/Johnson–Lindenstrauss_lemma)
 
