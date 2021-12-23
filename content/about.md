@@ -10,13 +10,11 @@ Hello! I'm a full-time hot chocolate enjoyer, part-time brain hacker. I don't kn
 [Reach out](mailto:raphael.hotter@gmail.com?subject=Hello!!) to talk about chocolate, brains, or math.
 
 ---
-
-<details open>
-<summary>Want to ruin the surprise?</summary>
-<br>
-Well, you asked for it!
-</details>
-
+**Some past projects**
+* [Milo](https://www.youtube.com/watch?v=_46AoSnHCRo), a brain-controlled wheelchair
+* [School 2.0](https://school2point0.com), an experiment in peer learning
+* [Breeze](https://www.youtube.com/watch?v=5ufh_80dSsk&t=2s&ab_channel=Breeze), a low-cost ventilator
+---
 
 <!-- **Friends with websites**
 * [Santi Aranguri](https://aranguri.wordpress.com/)
@@ -34,8 +32,4 @@ Well, you asked for it!
 
 **Favourite theorem/lemma:** [Johnson-Lindenstrauss lemma](https://en.m.wikipedia.org/wiki/Johnson–Lindenstrauss_lemma)
 
----
-**Some past projects**
-* [Milo](https://www.youtube.com/watch?v=_46AoSnHCRo), a brain-controlled wheelchair
-* [School 2.0](https://school2point0.com), an experiment in peer learning
-* [Breeze](https://www.youtube.com/watch?v=5ufh_80dSsk&t=2s&ab_channel=Breeze), a low-cost ventilator
+**Favourite communities:** [Interact](https://joininteract.com/), [Neo](http://neo.com/), and [McGill Neurotech](https://www.facebook.com/McGillNeurotech)
