@@ -44,7 +44,7 @@ summaryLength = 20
     # Custom CSS added to default styles. Files added to `static` folder is copied as it is to
     # root by Hugo. For example if you have custom CSS file under `static/css/custom.css` then
     # you can specify custom css path as `css/custom.css`.
-    customCSS = "css/custom.css"
+    customCSS = "css/custom.css?version=1.1"
     # Custom CSS added to dark mode style.
     # customDarkCSS = "css/custom-dark.css"
 
