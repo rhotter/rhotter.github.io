@@ -1,0 +1,27 @@
+<a onclick="showHide({{ .Get `prompt` }}, {{ .Get `uniqueNum`}})" id={{ .Get `uniqueNum`}}>[{{ .Get "prompt"}}]</a>
+
+<div id="hidden-{{ .Get `uniqueNum` }}" class="explanation" style="display: none">
+{{ .Inner | markdownify}}
+</div>
+
+<script>
+    function showHide(defaultText, uniqueNum) {
+        showHideIt(document.getElementById("hidden-" + uniqueNum));
+        let text = document.getElementById(uniqueNum)
+        if (text.innerHTML === "[hide]") {
+            text.innerHTML = "[" + defaultText + "]";
+        } else {
+            text.innerHTML = "[" + "hide" + "]";
+        }
+    }
+
+    function showHideIt(x) {
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+
+
+</script>
