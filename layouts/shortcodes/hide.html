@@ -1,7 +1,12 @@
 <a onclick="showHide({{ .Get `prompt` }}, {{ .Get `uniqueNum`}})" id={{ .Get `uniqueNum`}}>[{{ .Get "prompt"}}]</a>
 
 <div id="hidden-{{ .Get `uniqueNum` }}" class="explanation" style="display: none">
+{{ if or (.Get "no-markdown") }}
+{{ .Inner }}
+{{ else }}
 {{ .Inner | markdownify}}
+{{ end }}
+
 </div>
 
 <script>

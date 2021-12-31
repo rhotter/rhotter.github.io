@@ -7,37 +7,60 @@ _build:
  list: false
 
 ---
-Magnetic resonance imaging (MRI) has relatively long scan times, sometimes close to an hour for an exam. This sucks because long scan times makes MRI exams more expensive, less accessible, and unpleasant. Here, we review the latest methods in machine learning that aim to reduce the scan time through new ways of image reconstruction. These techniques are pretty general and can be applied to other image reconstruction problems.
+Magnetic resonance imaging (MRI) has long scan times, sometimes close to an hour for an exam. This sucks because long scan times makes MRI exams more expensive, less accessible, and unpleasant. {{<hide prompt="How does it feel like to be in an MRI?" uniqueNum="74" no-markdown="True">}}
+Imagine hearing this for an hour. <br><br>
+
+{{<youtube "9GZvd_4ot04?start=203">}}
+
+{{</hide>}}
+
+
+Here, I review the latest methods in machine learning that aim to reduce the scan time through new ways of image reconstruction. Smarter image reconstructions allows us to acquire way less data, which means shorter scan times. These techniques are pretty general and can be applied to other image reconstruction problems.
 
 
 ## MRI Image Reconstruction
-In most imaging methods, sensors don't acquire an image directly. Rather they acquire some transformation of the image. Image reconstruction is about turning the sensor data into an image, i.e. inverting the transformation.
+In most medical imaging methods, what you see on the screen isn’t just a raw feed of what the device’s sensors are picking up.
 
-In MRI, the transformation is a Fourier transform. This is super wacky! It means the sensors somehow measure the spatial frequencies in the image! (This comes from two cool tricks in MRI, known as frequency encoding and phase encoding -- maybe I will write a blog post on this.) We can write this as:
+In MRI, this is what the sensors pick up:
 
-\begin{equation}
+{{< figure src="/ml-for-mri/mri-sensor-data.png" width="50%">}}
+
+How in the world is this data useful? Image reconstruction is this incredible procedure that can turn this mess of sensor data into an actual image. After doing image reconstruction on the sensor data above, we get:
+
+{{< figure src="/ml-for-mri/mri-knee.png" width="50%">}}
+
+Now that's much better! (this is an MRI of the knee)
+
+So how does this magical procedure of turning sensor data into images work? 
+
+A nice way to frame this problem is to consider the signals the sensors pick up as a mathematical transformation of the image. In this framing, creating an image is inverting this mathematical transformation. This might seem backward, but it’ll become handy soon.
+
+In MRI, the transformation from image to sensor data is a [2D or 3D Fourier transform](https://youtu.be/spUNpyF58BY). This is super wacky! It means the sensors somehow measure the spatial frequencies in the image[^1]! We can write this as:
+
+[^1]: This comes from two cool tricks in MRI, known as frequency encoding and phase encoding -- maybe I will write a blog post on this.
+
+$$
     \mathbf{y} = \mathcal{F} (\mathbf{x}^*)
-\end{equation}
+$$
 
-where $ \mathbf{y} $ is the sensor data, $\mathbf{x}^* $ is the ground-truth image, and $\mathcal{F}$ is the Fourier transform. Typically, some noise is also added to the right hand side of (1).
+where $ \mathbf{y} $ is the (noiseless) sensor data, $\mathbf{x}^* $ is the ground-truth image, and $\mathcal{F}$ is the Fourier transform.
 
 Reconstructing the image from the frequency-domain (sensor) data is simple: we just apply an inverse Fourier transform.
-\begin{equation}
+$$
     \mathbf{\hat{x}} = \mathcal{F}^{-1}(\mathbf{y})
-\end{equation}
+$$
 
-For simplicity, we have and will assume we are recording from a single coil, but these methods can be extended to multi-coil imaging (also called parallel imaging).
+For simplicity, let's assume we're recording from a single coil, but these methods can be extended to multi-coil imaging (also called parallel imaging).
 
-Here's an example of the sensor data (left) from a knee MRI with the corresponding image reconstruction (right).
-
-{{< figure src="/ml-for-mri/simple-reconstruction.png" width="50%">}}
 
 ## Using Less Data
 The MRI Gods tell us that if we want to reconstruct an image with $n$ pixels (or voxels), we need at least $n$ frequencies. {{<hide prompt="Why?" uniqueNum="5">}}
 This can be seen using a bit of linear algebra. Since the Fourier transform is linear, we can represent it by an $n\times n$ matrix, say $\mathbf{F}$, with each column of $\mathbf{F}$ corresponding to a different frequency. If we only use a subset of the frequencies, this amounts to removing some of the columns of $\mathbf{F}$. But then the new version of $\mathbf{F}$ has less than $n$ columns, which means the problem of finding an $\mathbf{x}$ such that $\mathbf{F} \mathbf{x}=\mathbf{y}$ is underdetermined. Therefore, there are infinitely many images $\mathbf{x}$ that are consistent with the sensor data.
 {{</hide>}}
 
-But the problem with acquiring $n$ frequencies is that it takes a lot of time. A typical MRI image has on the order of $ n=10 $ million frequencies, which -- even with many hardware tricks to cut acquisition time -- means an MRI exam typically takes ~40 minutes and can sometimes take as long as an hour. If we could acquire only 1/4th of the frequencies, we can reduce acquisition time by 4x.
+But the problem with acquiring $n$ frequencies is that it takes a lot of time. This is because MRI scan time scales linearly with the number of frequencies you acquire[^2]. A typical MRI image has on the order of 10 million frequencies, which -- even with many hardware tricks to cut acquisition time -- means an MRI exam typically takes ~40 minutes and can sometimes take as long as an hour. If we could acquire only 1/4th of the frequencies, we can reduce acquisition time by 4x (and therefore MRIs could cost 4x less).
+
+[^2]: To be precise, MRI scan time scales linearly in 2 of the 3 spatial dimensions. We actually get one dimension of frequencies for free. This is from a neat trick known as frequency encoding which allows us to parallelize the acquisition process.
 
 So suppose we drink a bit too much and forget about the linear algebra result, only acquiring a subset of the frequencies. Let's set the data at the frequencies that we didn't acquire to be 0. We can write this as
 
@@ -46,33 +69,111 @@ So suppose we drink a bit too much and forget about the linear algebra result, o
 \end{equation}
 where $\mathcal{M}$ is a masking matrix filled with 0s and 1s, and $\odot$ denotes element-wise multiplication. If we try to reconstruct the same knee MRI data as above with less frequencies, we get (aliasing) artifacts:
 
-{{< figure src="/ml-for-mri/simple-compressed-recon.png" width="75%">}}
+{{<figure src="/ml-for-mri/simple-compressed-recon.png" width="75%">}}
 
-{{<hide prompt="Why is the mask composed of horizontal lines?" uniqueNum="9">}}
+{{<hide prompt="Why is the mask composed of horizontal lines? And why is the mask more densely sampled near the middle?" uniqueNum="9">}}
 For most MRI acquisition methods, there is no time savings to keeping only part of a horizontal line. It's all or nothing.
+
+More of the information in the signal is contained in the low frequencies, so we sample the middle (where the lower frequncies are) more than the rest.
+
 {{</hide>}}
 
 So our dreams of using less frequencies are over, right?
 
-What if we add more information to the image reconstruction process that is not from the current measurement $\mathbf{\tilde{y}} $?
+What if we add more information to the image reconstruction process that is not from the current measurement $\mathbf{\tilde{y}} $? For example, in compressed sensing, we can assume that the desired image $\mathbf{x}$ doesn't have many edges. Here's a knee MRI along with its edge map, which we see is very sparse:
 
-For example, in compressed sensing, we can assume that the desired image $\mathbf{x}$ is sparse in some transform domain (hence the name "compressed" sensing). We can then solve the following optimization problem
+
+
+How do we incorporate the fact that we know that MRI images aren't supposed to have many edges? First, we need some way of counting how many edges are in an MRI image. A decent way to do this is by summing the spatial derivatives in the image (this is called the total variation we can write this mathematically as $R_{TV}(\mathbf{x}) = ||\nabla \mathbf{x}||_1$).
+
+
+
+Next, we create an objective function that minimizes 
+
+
+
+
+
+We can write this as:
+
+$$R(\mathbf{x}) = ||\nabla \mathbf{x}||_1$$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+For example, in compressed sensing, we assume that the desired image $\mathbf{x}$ is compressible. How do we know if an image is compressible? Can we measure compressibility?
+
+One way to measure compressibility is to count how many pixels (or voxels in 3D) in the image are zero. If the image is mostly zeros, then it can be compressed by remembering only the non-zero elements (and where they go)! The images you get when imaging blood vessels (from [Magnetic Resonance Angiography](https://en.wikipedia.org/wiki/Magnetic_resonance_angiography)) are highly compressible in this way! 
+
+Unfortunately, this doesn't work for non-blood vessel MRIs. Another way to measure compressibility is to see if to count how many edges there are in the image. This tends to work decently well for many types of MRI images!
+
+We want our measure of compressibility to be differentiable.
+
+<!-- {{<hide prompt="What do you mean by sparse?" uniqueNum="64">}} A sparse signal/image/vector means it has many zeros. A consequence of this is that you can compress it (hence the name "compressed sensing"). 
+{{</hide>}} -->
+
+We can then solve the following optimization problem
 
 \begin{equation}
     \argmin_{\mathbf{x}} || \mathcal{M} \odot \mathcal{F}(\mathbf{x}) - \mathbf{\tilde{y}} ||_2^2 + R(\mathbf{x})
 \end{equation}
 
-The left term tells us how much our reconstruction $x$ agrees with our measurements $\mathbf{y}$. The right term, $R(\mathbf{x})$, can penalize images if they are not sparse in the desired transform domain. $R(\mathbf{x})$ is called a regularizer. {{< hide prompt="How do you interpret R(x) probabilistically?" uniqueNum="1">}}
+The left term says: "If $\mathbf{x}$ were the real image, how would the sensor data we'd capture from $\mathbf{x}$ compare with our real sensor data $\mathbf{\tilde{y}}$?" In other words, it tells us how much our reconstruction $\mathbf{x}$ agrees with our measurements $\mathbf{\tilde{y}}$. The right term, $R(\mathbf{x})$, penalizes images if they are not sparse. $R(\mathbf{x})$ is called a regularizer. The challenge is finding an image that both agrees with our measurements and is sparse.
 
-$R(\mathbf{x})$ is an estimate of the likelihood of an image $\mathbf{x}$. One can make the connection between $R(\mathbf{x})$ and the likelihood formal using maximum _a posteriori_ estimation. It turns out that $R(\mathbf{x}) = -\ln p(\mathbf{x})$. We call $p(\mathbf{x})$ the prior distribution. So $R(\mathbf{x})$ really is measuring how likely an image is under your prior!
-
-{{< /hide >}}
+One way to choose $R(\mathbf{x})$ is as the sum of all the elements of $\mathbf{x}$.
 
 Some examples of $R(\mathbf{x})$ for MRI image reconstruction include:
 
-* $R_{L^1}(\mathbf{x}) = \lambda ||\mathbf{x}||_1$, where $||\mathbf{x}||_1 = \sum_i |\mathbf{x}_i|$ is the $L^1$ norm, and $\lambda \in (0,\infty)$ is a constant that is selected (in machine learning language, we'd call $\lambda$ a hyperparameter). The L1 norm encourages sparsity (in fact, the $||.||_1$ norm is a convex relaxation of the $||.||_0$ norm which counts the number of nonzero entries.)
+* $R_{L^1}(\mathbf{x}) = \lambda ||\mathbf{x}||_1$, where $||\mathbf{x}||_1 = \sum_i |\mathbf{x}_i|$ is the $L^1$ norm, and $\lambda \in (0,\infty)$ is a constant that is selected (in machine learning language, we'd call $\lambda$ a hyperparameter). The L1 norm encourages sparsity.
 * $R_{\text{wavelet}}(\mathbf{x}) = \lambda ||\mathbf{\Psi} \mathbf{x}||_1$ where $\mathbf{\Psi}$ denotes a wavelet transform, and $\lambda \in (0,\infty)$ is a constant. The wavelet regularizer encourages sparsity in the wavelet basis.
 * $R_{TV}(\mathbf{x}) = \lambda ||\nabla \mathbf{x} ||_2$ where $\nabla$ is the spatial gradient (estimated numerically), and $\lambda \in (0,\infty)$ is a constant. The total variation regularizer removes excessive details but keeps edges.
+
+{{<hide prompt="How do you interpret R(x) probabilistically?" uniqueNum="1">}}
+
+$R(\mathbf{x})$ is a measure of how many bits you need to encode your image $\mathbf{x}$. If you use maximum _a posteriori_ estimation, you can show that $R(\mathbf{x}) \propto -\log p(\mathbf{x})$! We call $p(\mathbf{x})$ the prior distribution. So $R(\mathbf{x})$ really is measuring how likely an image is under your prior!
+
+{{</hide >}}
 
 Algorithms like gradient descent allow one to solve (4). Though compressed sensing can improve the image quality relative to a vanilla inverse Fourier transform, it still suffers from artifacts. Below is another knee MRI with 4x subsampled data:
 
@@ -83,7 +184,7 @@ The difficulty with classical compressed sensing is that humans must manually de
 Enter machine learning... Over the past decade-ish, machine learning has had great success in learning functions that humans have difficulty hard coding. It has revolutionized the fields of computer vision, natural language processing, among others. Instead of hard coding functions, machine learning algorithms learn functions from data. In the next section, we will explore a few recent machine learning approaches to MRI image reconstruction.
 
 {{<hide prompt="Did you know Terence Tao was one of the pioneers of compressed sensing?" uniqueNum="12">}}
-It turns out Terence Tao's most cited paper is from his work on compressed sensing! [Terence Tao](https://en.wikipedia.org/wiki/Terence_Tao) is one of the greatest mathematicians of our time.
+It turns out [Terence Tao](https://en.wikipedia.org/wiki/Terence_Tao)'s most cited paper is from his work on compressed sensing!
 {{</hide>}}
 
 ## Machine Learning Comes to the Rescue
@@ -208,6 +309,7 @@ An important question is how well do these models generalize outside of their tr
 {{<figure src="/ml-for-mri/dgp.png" width="75%" caption=`**Reconstructions of 2D abdominal scans at 4x acceleration for methods trained on brain MRI data.** The red arrows points to artifacts in the images. The deep generative prior method from [Jalal 2021](http://arxiv.org/abs/2108.01368) does not have the artifacts from the other methods. Results from [Jalal 2021](http://arxiv.org/abs/2108.01368).`>}}
 
 Why generative models generalize, I don't fully understand yet, but the authors do [give some theoretical justification](http://arxiv.org/abs/2108.01368). A limitation to image reconstruction using deep generative priors is that the reconstruction time is typically longer than methods like VarNet (it can be more than 15 minutes on a modern GPU).
+<!-- you're not learning the forward operator -->
 
 ### Untrained Neural Networks
 Imagine we get drunk again and forget to feed our machine learning model any data. We should get nonsense right...? Well, recently, it's been [shown](http://arxiv.org/abs/2007.02471) that even with no data at all, the models in machine learning can be competitive with fully trained machine learning methods for MRI image reconstruction.
@@ -226,6 +328,8 @@ Machine learning methods have made significant progress in reducing the scan tim
 A limitation to deep learning for healthcare is that we still don't have a good understanding of *why* deep learning works. This makes it hard to predict when and how deep learning methods will fail (there are no theoretical guarantees that deep learning will work). One tool to help in this regard is uncertainty quantification. Stochastic methods like deep generative priors can estimate the uncertainty in their reconstruction by creating many reconstructions with different random seeds and computing the standard deviation. For non-generative methods, works like [Edupuganti 2019](http://arxiv.org/abs/1901.11228) make use of Stein's unbiased risk estimate (SURE) to estimate uncertainty.
 
 In addition to MRI, machine learning methods have also been used for other forms of image reconstruction. A great review can be found [here](http://arxiv.org/abs/2005.06001).
+
+_**A big thank you** to [Milan Cvitkovic](https://milan.cvitkovic.net/), Hannah Le, and [Marley Xiong](https://marleyx.com) for reviewing drafts of this._
 
 <!-- ## References
 Akçakaya, Mehmet, Steen Moeller, Sebastian Weingärtner, and Kâmil Uğurbil. 2019. “Scan-Specific Robust Artificial-Neural-Networks for K-Space Interpolation (RAKI) Reconstruction: Database-Free Deep Learning for Fast Imaging.” Magnetic Resonance in Medicine: Official Journal of the Society of Magnetic Resonance in Medicine / Society of Magnetic Resonance in Medicine 81 (1): 439–53.
