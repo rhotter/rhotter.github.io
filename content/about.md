@@ -29,6 +29,7 @@ Hello! I'm a full-time hot chocolate enjoyer, part-time brain hacker. I don't kn
 * [Linus Lee](https://thesephist.com/)
 * [Math3ma](https://www.math3ma.com/)
 * [Terence Tao](https://terrytao.wordpress.com/)
+* [xcorr](https://xcorr.net/)
 
 **Favourite theorem/lemma:** [Johnson-Lindenstrauss lemma](https://en.m.wikipedia.org/wiki/Johnson–Lindenstrauss_lemma)
 
