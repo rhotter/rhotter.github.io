@@ -206,7 +206,7 @@ $$</p>
 <h3 id=deep-generative-priors>Deep Generative Priors</h3>
 <p>All methods above required access to a dataset that had both MRI images and the raw sensor data. However, to my understanding, the raw sensor data is not typically saved on clinical MRIs. Constructing a dataset with only the MRI images and without the raw sensor data might be easier. Fortunately, there are machine learning methods that only require MRI images as training data (i.e., <a href=https://en.wikipedia.org/wiki/Unsupervised_learning>unsupervised models</a>).</p>
 <p>One approach is to train what is called a <a href=https://en.wikipedia.org/wiki/Generative_model#Deep_generative_models>generative model</a>. Generative models are very popular in the computer vision community for generating realistic human faces or scenes (that it has never seen before!). Similarly, we can train a generative model to generate new MRI-like images.</p>
-<p>A generative MRI model is a function $G_{\boldsymbol{\theta}}$ that tries to turns any random vector $\mathbf{z} \in \mathbb{R}^m$ into a realistic image $\mathbf{x} \in \mathbb{R}^n$. Typicaly, $m \ll n$, i.e., the input space is often much smaller than the output space.</p>
+<p>A generative MRI model is a function $G_{\boldsymbol{\theta}}$ that tries to turn any random vector $\mathbf{z} \in \mathbb{R}^m$ into a realistic image $\mathbf{x} \in \mathbb{R}^n$. Typicaly, $m \ll n$, i.e., the input space is often much smaller than the output space.</p>
 <p>Image reconstruction with generative models is done by solving the optimization problem:
 \begin{equation}
 \argmin_{\mathbf{z}} ||\mathbf{A} G_{\boldsymbol{\theta}}(\mathbf{z}) - \mathbf{\tilde{y}}||_2^2
