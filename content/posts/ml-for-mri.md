@@ -186,7 +186,7 @@ Let's take a look at where the refinement step comes from. Recall that in classi
 
 $$ \argmin_{\mathbf{x}} || \mathbf{A}\mathbf{x} - \mathbf{\tilde{y}} ||_2^2 + R(\mathbf{x})$$
 
-This is not the optimization problem for VarNet, but we will use a cool trick, called unrolled optimization:
+This is not the optimization problem for VarNet, but we will use a cool trick called unrolled optimization:
 
 If we solve the compressed sensing objective function via gradient descent, we get the following update equation for the $t$-th iteration of the image, ${\mathbf{x}}^t$.
 
