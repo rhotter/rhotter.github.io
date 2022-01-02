@@ -174,7 +174,7 @@ At first, the physicians thought the VarNet images didn't look great because the
 
 Below is a sample reconstruction from their study, compared with the ground truth. I can't tell the difference.
 
-{{<figure src="/ml-for-mri/varnet.png" width="75%" caption=`Knee MRI comparison between VarNet and the ground truth at 4x acceleration. Figure reproduced from [Recht et al. 2020](https://www.ajronline.org/doi/10.2214/AJR.20.23313).`>}}
+{{<figure src="/ml-for-mri/varnet.png" width="75%" caption=`**Knee MRI comparison between VarNet and the ground truth at 4x acceleration.** Figure reproduced from [Recht et al. 2020](https://www.ajronline.org/doi/10.2214/AJR.20.23313).`>}}
 
 So how does VarNet work? It starts with a blank image, and consists of a series of refinement steps, progressively turning the blank image into a better and better version.
 
@@ -242,9 +242,9 @@ How do you explain this? First, let's see how these models work. These no-data m
 
 This is remarkable! And confusing! We started off by saying that machine learning removes the need to manually engineer regularizers for compressed sensing. But instead, we are manually engineering the architectures of machine learning models! How much are these machine learning models *really* learning?
 
-It turns out, such untrained models have been applied to other inverse problems like region inpainting, denoising, and super resolution, and they have achieved [remarkable results](http://arxiv.org/abs/1711.10925).
+It turns out such untrained models have been applied to other inverse problems like region inpainting, denoising, and super resolution, and they have achieved [remarkable results](http://arxiv.org/abs/1711.10925). Below are some results of an untrained model, [ConvDecoder](http://arxiv.org/abs/2007.02471), on 4x subsampled data in MRI. We see that even though ConvDecoder is untrained, it produces better reconstructions than U-Net and TV-regularized compressed sensing.
 
-{{<figure src="/ml-for-mri/convdecoder.png" width="75%" caption=`**Comparison of the untrained [ConvDecoder](http://arxiv.org/abs/2007.02471) with the [U-Net MRI](http://arxiv.org/abs/1811.08839), and total-variation regularized compressed sensing.** Reconstructions of knee-MRI at 4x acceleration. The second row is a zoomed in version of the first row. We see that even though ConvDecoder is untrained, it produces better reconstructions than U-Net and TV-regularized compressed sensing. Figure reproduced from [Darestani et al. 2020](http://arxiv.org/abs/2007.02471).`>}}
+{{<figure src="/ml-for-mri/convdecoder.png" width="75%" caption=`**Comparison of the untrained [ConvDecoder](http://arxiv.org/abs/2007.02471) with the [U-Net MRI](http://arxiv.org/abs/1811.08839), and total-variation regularized compressed sensing.** Reconstructions of knee-MRI at 4x acceleration. The second row is a zoomed in version of the first row. Figure reproduced from [Darestani et al. 2020](http://arxiv.org/abs/2007.02471).`>}}
 
 ## Concluding Thoughts
 Machine learning methods have made significant progress in reducing the scan time of MRI. Not only have ML methods for compressed sensing produced strong results on quantitative metrics like SSIM, but they have started to be [validated by clinicians](https://www.ajronline.org/doi/10.2214/AJR.20.23313). Validation by clinicians is essential in image reconstruction because a fine detail can be essential in a diagnosis but might not make its way into a metric like the mean-squared-error.
