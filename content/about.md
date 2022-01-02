@@ -28,6 +28,7 @@ Hello! I'm a full-time hot chocolate enjoyer, part-time brain hacker. I don't kn
 * [Derek Sivers](https://sive.rs/)
 * [Linus Lee](https://thesephist.com/)
 * [Math3ma](https://www.math3ma.com/)
+* [Milan Cvitkovic](https://milan.cvitkovic.net/)
 * [Terence Tao](https://terrytao.wordpress.com/)
 * [xcorr](https://xcorr.net/)
 
