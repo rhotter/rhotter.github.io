@@ -58,7 +58,8 @@ Imagine hearing this for an hour. <br><br>
 </div>
 </div>
 <script>function showHide(c,b){showHideIt(document.getElementById("hidden-"+b));let a=document.getElementById(b);a.innerHTML==="[hide]"?a.innerHTML="["+c+"]":a.innerHTML="[hide]"}function showHideIt(a){a.style.display==="none"?a.style.display="block":a.style.display="none"}</script></p>
-<p>Here, I review the latest methods in machine learning that aim to reduce the scan time through new ways of image reconstruction. Smarter image reconstructions allows us to acquire way less data, which means shorter scan times. These techniques are pretty general and can be applied to other image reconstruction problems.</p>
+<p>Here, I review some methods in machine learning that aim to reduce the scan time through new ways of image reconstruction. Smarter image reconstructions allows us to acquire way less data, which means shorter scan times. These techniques are pretty general and can be applied to other image reconstruction problems.</p>
+<p><em>Disclaimer: This is not meant to be a comprehensive review. Rather, it is just a sample of some methods I found cool.</em></p>
 <h2 id=mri-image-reconstruction>MRI Image Reconstruction</h2>
 <p>In most medical imaging methods, what you see on the screen isn’t just a raw feed of what the device’s sensors are picking up.</p>
 <p>In MRI, this is what the sensors pick up:</p>
@@ -67,8 +68,7 @@ Imagine hearing this for an hour. <br><br>
 <p>How in the world is this data useful? Image reconstruction is this incredible procedure that can turn this mess of sensor data into an actual image. After doing image reconstruction on the sensor data above, we get:</p>
 <figure><img src=/ml-for-mri/mri-knee.png width=50%>
 </figure>
-<p>Now that&rsquo;s much better! (this is an MRI of the knee)</p>
-<p>So how does this magical procedure of turning sensor data into images work?</p>
+<p>Now that&rsquo;s much better! (this is an MRI of the knee.) So how does this magical procedure of turning sensor data into images work?</p>
 <p>A nice way to frame this problem is to consider the signals the sensors pick up as a mathematical transformation of the image. In this framing, creating an image is inverting this mathematical transformation. This might seem backward, but it’ll become handy soon.</p>
 <p>In MRI, the transformation from image to sensor data is a <a href=https://youtu.be/spUNpyF58BY>2D or 3D Fourier transform</a>. This is super wacky! It means the sensors somehow measure the spatial frequencies in the image<sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup>! We can write this as:</p>
 <p>$$
@@ -81,16 +81,14 @@ $$
 $$</p>
 <p>For simplicity, let&rsquo;s assume we&rsquo;re recording from a single coil, but these methods can be extended to multi-coil imaging (also called parallel imaging).</p>
 <h2 id=using-less-data>Using Less Data</h2>
-<p>The MRI Gods tell us that if we want to reconstruct an image with $n$ pixels (or voxels), we need at least $n$ frequencies. <a onclick='showHide("Why?","5")' id=5>[Why?]</a>
+<p>The MRI Gods (linear algebra) tell us that if we want to reconstruct an image with $n$ pixels (or voxels), we need at least $n$ frequencies. <a onclick='showHide("Why?","5")' id=5>[Why?]</a>
 <div id=hidden-5 class=explanation style=display:none>
 This can be seen using a bit of linear algebra. Since the Fourier transform is linear, we can represent it by an $n\times n$ matrix, say $\mathbf{F}$, with each column of $\mathbf{F}$ corresponding to a different frequency. If we only use a subset of the frequencies, this amounts to removing some of the columns of $\mathbf{F}$. But then the new version of $\mathbf{F}$ has less than $n$ columns, which means the problem of finding an $\mathbf{x}$ such that $\mathbf{F} \mathbf{x}=\mathbf{y}$ is underdetermined. Therefore, there are infinitely many images $\mathbf{x}$ that are consistent with the sensor data.
 </div>
 <script>function showHide(c,b){showHideIt(document.getElementById("hidden-"+b));let a=document.getElementById(b);a.innerHTML==="[hide]"?a.innerHTML="["+c+"]":a.innerHTML="[hide]"}function showHideIt(a){a.style.display==="none"?a.style.display="block":a.style.display="none"}</script></p>
 <p>But the problem with acquiring $n$ frequencies is that it takes a lot of time. This is because MRI scan time scales linearly with the number of frequencies you acquire<sup id=fnref:2><a href=#fn:2 class=footnote-ref role=doc-noteref>2</a></sup>. A typical MRI image has on the order of 10 million frequencies, which &ndash; even with many hardware tricks to cut acquisition time &ndash; means an MRI exam typically takes ~40 minutes and can sometimes take as long as an hour. If we could acquire only 1/4th of the frequencies, we can reduce acquisition time by 4x (and therefore MRIs could cost 4x less).</p>
 <p>So suppose we drink a bit too much and forget about the linear algebra result, only acquiring a subset of the frequencies. Let&rsquo;s set the data at the frequencies that we didn&rsquo;t acquire to be 0. We can write this as</p>
-<p>\begin{equation}
-\mathbf{\tilde{y}} = \mathcal{M} \odot \mathbf{y} = \mathcal{M} \odot \mathcal{F} (\mathbf{x}^*)
-\end{equation}
+<p>$$\mathbf{\tilde{y}} = \mathcal{M} \odot \mathbf{y} = \mathcal{M} \odot \mathcal{F} (\mathbf{x}^*)$$
 where $\mathcal{M}$ is a masking matrix filled with 0s and 1s, and $\odot$ denotes element-wise multiplication. If we try to reconstruct the same knee MRI data as above with less frequencies, we get (aliasing) artifacts:</p>
 <figure><img src=/ml-for-mri/simple-compressed-recon.png width=75%>
 </figure>
@@ -101,15 +99,15 @@ where $\mathcal{M}$ is a masking matrix filled with 0s and 1s, and $\odot$ denot
 </div>
 <script>function showHide(c,b){showHideIt(document.getElementById("hidden-"+b));let a=document.getElementById(b);a.innerHTML==="[hide]"?a.innerHTML="["+c+"]":a.innerHTML="[hide]"}function showHideIt(a){a.style.display==="none"?a.style.display="block":a.style.display="none"}</script>
 <p>So our dreams of using less frequencies are over, right?</p>
-<p>What if we add more information to the image reconstruction process that is not from the current measurement $\mathbf{\tilde{y}} $? For example, in compressed sensing, we can assume that the desired image $\mathbf{x}$ doesn&rsquo;t have many edges (i.e. we can &ldquo;compress&rdquo; the edges). Here&rsquo;s a knee MRI along with its edge map, which we see is very sparse:</p>
+<p>What if we add more information to the image reconstruction process that is not from the current measurement $\mathbf{\tilde{y}} $? For example, in compressed sensing, we can assume that the desired image $\mathbf{x}$ doesn&rsquo;t have many edges (i.e. that we can &ldquo;compress&rdquo; the edges). Here&rsquo;s a knee MRI along with its edge map, which we see is very sparse:</p>
 <figure><img src=/ml-for-mri/knee-edges.png width=75%>
 </figure>
-<p>How do we incorporate the fact that we know that MRI images aren&rsquo;t supposed to have many edges? First, we need some way of counting how many edges are in an MRI image. Edges are places in the image with high spatial derivative, so decent way to count edges is by summing the spatial derivatives (this is called the total variation and we can write this mathematically as $R_{TV}(\mathbf{x}) = ||\nabla \mathbf{x}||_1$, where $\nabla$ is the spatial gradient and $||.||_1$ is the <a href=https://en.wikipedia.org/wiki/Norm_(mathematics)#Taxicab_norm_or_Manhattan_norm>L1 norm</a>).</p>
+<p>How do we incorporate the fact that we know that MRI images aren&rsquo;t supposed to have many edges? First, we need some way of counting how many edges are in an MRI image. Edges are places in the image with high spatial derivatives, so a decent way to count edges is by summing the spatial derivatives (this is called the total variation, and we can write this mathematically as $R_{TV}(\mathbf{x}) = ||\nabla \mathbf{x}||_1$, where $\nabla$ is the spatial gradient and $||.||_1$ is the <a href=https://en.wikipedia.org/wiki/Norm_(mathematics)#Taxicab_norm_or_Manhattan_norm>L1 norm</a>).</p>
 <p>It isn&rsquo;t enough to just look for images that are not so edgy though; we still need our images to match the measurements that we collect (otherwise, we can just make our image blank). We can combine these two components into the following optimization problem:</p>
 <p>$$
 \argmin_{\mathbf{x}} || \mathcal{M} \odot \mathcal{F}(\mathbf{x}) - \mathbf{\tilde{y}} ||_2^2 + R _{TV}(\mathbf{x})
 $$</p>
-<p>The left term says: &ldquo;If $\mathbf{x}$ were the real image, how would the sensor data we&rsquo;d capture from $\mathbf{x}$ compare with our real sensor data $\mathbf{\tilde{y}}$?&rdquo; In other words, it tells us how much our reconstruction $\mathbf{x}$ agrees with our measurements $\mathbf{\tilde{y}}$. The right term, $R(\mathbf{x})$, penalizes images if they are too edgy. $R(\mathbf{x})$ is called a regularizer. The challenge is finding an image that both agrees with our measurements and isn&rsquo;t too edgy. Algorithms like gradient descent allows us to solve (4). <a onclick='showHide("What is gradient descent?","16")' id=16>[What is gradient descent?]</a>
+<p>The left term says: &ldquo;If $\mathbf{x}$ were the real image, how would the sensor data we&rsquo;d capture from $\mathbf{x}$ compare with our real sensor data $\mathbf{\tilde{y}}$?&rdquo; In other words, it tells us how much our reconstruction $\mathbf{x}$ agrees with our measurements $\mathbf{\tilde{y}}$. The right term, $R_{TV}(\mathbf{x})$, penalizes images if they are too edgy. The challenge is finding an image that both agrees with our measurements and isn&rsquo;t too edgy. Algorithms like gradient descent allows us to solve the optimization problem above. <a onclick='showHide("What is gradient descent?","16")' id=16>[What is gradient descent?]</a>
 <div id=hidden-16 class=explanation style=display:none>
 <p>Gradient descent is an iterative algorithm to minimze some function $\mathcal{L}(\boldsymbol{\theta})$. It starts at some initial parameters ${\boldsymbol{\theta}}^{(0)}$ and updates its parameters in the direction of the gradient, $\nabla L({\boldsymbol{\theta}})$, so as to locally reduce the loss function as much as possible. In the $t$-th iteration, ${\boldsymbol{\theta}}^t$ is updated to ${\boldsymbol{\theta}}^{t+1}$ via
 $$
@@ -119,10 +117,10 @@ where $t$ is the iteration number, $\alpha^{t}$ is called the learning rate, ${\
 <p>You might worry that gradient descent gets stuck in local minima, but in practice, for neural networks with a huge amount of parameters, the minima found by gradient descent turn out to be really good ones! To my knowledge, we still don&rsquo;t fully understand why this is.</p>
 </div>
 <script>function showHide(c,b){showHideIt(document.getElementById("hidden-"+b));let a=document.getElementById(b);a.innerHTML==="[hide]"?a.innerHTML="["+c+"]":a.innerHTML="[hide]"}function showHideIt(a){a.style.display==="none"?a.style.display="block":a.style.display="none"}</script></p>
-<p>Though compressed sensing can improve the image quality relative to a vanilla inverse Fourier transform, it still suffers from artifacts. Below is another knee MRI with 4x subsampled data (<a href=http://arxiv.org/abs/1811.08839>source</a>):</p>
+<p>Though compressed sensing can improve the image quality relative to a vanilla inverse Fourier transform, it still suffers from artifacts. Below is another knee MRI with 4x subsampled data, and compares the vanilla inverse fourier transform with TV-compressed sensing (<a href=http://arxiv.org/abs/1811.08839>source</a>):</p>
 <figure><img src=/ml-for-mri/CS.png width=75%>
 </figure>
-<p>Maybe just saying &ldquo;MRI images shouldn&rsquo;t be very edgy&rdquo; isn&rsquo;t enough information to cut the sensor data by a factor of 4. So other methods of compressed sensing might say &ldquo;MRI images should be sparse&rdquo; or &ldquo;MRI images should be sparse in a wavelet basis.&rdquo; They do this by replacing $R_{TV}(\mathbf{x})$ with a more general $R(\mathbf{x})$. The difficulty with classical compressed sensing is that humans must manually encode what an MRI should look like through the regularizer $R(\mathbf{x})$​. We can come up with basic heuristics like the examples above, but ultimately deciding whether an image looks like it could have come from an MRI is a complicated process. <a onclick='showHide("How do you interpret R(x) using information theory?","1")' id=1>[How do you interpret R(x) using information theory?]</a>
+<p>Maybe just saying &ldquo;MRI images shouldn&rsquo;t be very edgy&rdquo; isn&rsquo;t enough information to cut the sensor data by a factor of 4. So other methods of compressed sensing might say &ldquo;MRI images should be <a href=https://en.wikipedia.org/wiki/Sparse_matrix>sparse</a>&rdquo; or &ldquo;MRI images should be sparse in a <a href=https://en.wikipedia.org/wiki/Wavelet_transform>wavelet basis</a>.&rdquo; They do this by replacing $R_{TV}(\mathbf{x})$ with a more general $R(\mathbf{x})$, which we call a regularizer. The difficulty with classical compressed sensing is that humans must manually encode what an MRI should look like through the regularizer $R(\mathbf{x})$​. We can come up with basic heuristics like the examples above, but ultimately deciding whether an image looks like it could have come from an MRI is a complicated process. <a onclick='showHide("How do you interpret R(x) using information theory?","1")' id=1>[How do you interpret R(x) using information theory?]</a>
 <div id=hidden-1 class=explanation style=display:none>
 If you use maximum <em>a posteriori</em> estimation, you can show that $R(\mathbf{x}) \propto -\log p(\mathbf{x})$! We call $p(\mathbf{x})$ the prior distribution. So $ R(\mathbf{x})$ is really a measure of how many bits you need to encode your image $\mathbf{x}$ with your prior.
 </div>
@@ -144,19 +142,19 @@ It turns out <a href=https://en.wikipedia.org/wiki/Terence_Tao>Terence Tao</a>&r
 <p>CNNs have achieved incredible success on a variety of computer vision problems. See this <a href=https://cs231n.github.io/convolutional-networks/>great course</a> to learn more about CNNs.</p>
 </div>
 <script>function showHide(c,b){showHideIt(document.getElementById("hidden-"+b));let a=document.getElementById(b);a.innerHTML==="[hide]"?a.innerHTML="["+c+"]":a.innerHTML="[hide]"}function showHideIt(a){a.style.display==="none"?a.style.display="block":a.style.display="none"}</script></p>
-<p>The CNN would take in the sensor measurements, $\mathbf{\tilde{y}}$, and output its predicted image $\mathbf{\hat{x}}$<sup id=fnref:3><a href=#fn:3 class=footnote-ref role=doc-noteref>3</a></sup>. After collecting a dataset that includes both measurements $\mathbf{\tilde{y}}$ and properly reconstructed images $\mathbf{{x}^*}$, you can train the neural network to make its predicted images as close to the ground truth images.</p>
-<p>The problem with this approach is that we don&rsquo;t tell the neural network anything about the physics of MRI. This means it has to learn to do MRI image reconstruction essentially from scratch, which will require a lot of training data.</p>
+<p>The CNN could take in the sensor measurements $\mathbf{\tilde{y}}$ and output its predicted image $\mathbf{\hat{x}}$<sup id=fnref:3><a href=#fn:3 class=footnote-ref role=doc-noteref>3</a></sup>. After collecting a dataset that includes both measurements $\mathbf{\tilde{y}}$ and properly reconstructed images $\mathbf{{x}^*}$, you can train the neural network to make its predicted images as close to the ground truth images.</p>
+<p>The problem with this approach is that we don&rsquo;t tell the neural network anything about the physics of MRI. This means it has to learn to do MRI image reconstruction from scratch, which will require a lot of training data.</p>
 <h3 id=u-net-mri>U-Net MRI</h3>
 <p>How can we tell our machine learning method about the physics of MRI image reconstruction? One idea is to first turn the sensor data into an image via an inverse Fourier transform before feeding it into a CNN. Now, the CNN would just have to &ldquo;clean up&rdquo; what was missed by the inverse Fourier transform. This is the approach taken by <a href=http://arxiv.org/abs/1811.08839>U-Net MRI</a>, where the CNN is chosen to be a U-Net. <a href=https://arxiv.org/abs/1505.04597>U-Nets</a> are a popular image-to-image model for biomedical applications.</p>
 <figure><img src=/ml-for-mri/unet-diagram.png width=100%>
 </figure>
 <p>We can formally write the operations performed by this network as
-$$ \mathbf{\hat{x}} = f_{{\boldsymbol{\theta}}}(\mathbf{\tilde{y}}) = \text{UNET}_{{\boldsymbol{\theta}}}(\mathcal{F}^{-1}(\mathbf{\tilde{y}}))$$</p>
+$$ \mathbf{\hat{x}} = \text{UNET}_{{\boldsymbol{\theta}}}(\mathcal{F}^{-1}(\mathbf{\tilde{y}}))$$</p>
 <p>where $\mathbf{\tilde{y}}$ is the subsampled sensor data, and $\text{UNET}_{\boldsymbol{\theta}}$ is the U-Net parameterized by a vector of parameters ${\boldsymbol{\theta}}$.</p>
 <p>The parameters ${\boldsymbol{\theta}}$ of the U-Net are optimized in order to minimize the following loss function.</p>
 <p>$$ \mathcal{L}({\boldsymbol{\theta}}) = \sum_{(\mathbf{\tilde{y}},{\mathbf{x}}^*) \in \mathcal{D}} ||\text{UNET}_{\boldsymbol{\theta}}(\mathcal{F}^{-1}(\mathbf{\tilde{y}})) - \mathbf{x^{*}} ||_1$$</p>
-<p>where $\mathbf{\tilde{y}}$ and $\mathbf{x}^*$ are subsampled sensor, image reconstruction pairs from the dataset $\mathcal{D}$. In words, our neural network takes as its input subsampled sensor data $\mathbf{\tilde{y}}$ and tries to product an output $\text{UNET}_{\boldsymbol{\theta}}(\mathcal{F}^{-1}(\mathbf{\tilde{y}}))$ that is as close to the real image ${\mathbf{x}}^*$ as possible. The parameters ${\boldsymbol{\theta}}$ are optimized via gradient descent (or slightly cooler versions of gradient descent).</p>
-<p>In the figure below, we see a significant qualitative improvement in the reconstructions from the U-Net relative to traditional compressed sensing with total variation regularization.</p>
+<p>where $\mathbf{\tilde{y}}$ and $\mathbf{x}^*$ are subsampled sensor data and ground truth images, respectively, sampled from the dataset $\mathcal{D}$. In words, our neural network takes as its input subsampled sensor data $\mathbf{\tilde{y}}$ and tries to output $\text{UNET}_{\boldsymbol{\theta}}(\mathcal{F}^{-1}(\mathbf{\tilde{y}}))$ that is as close to the real image ${\mathbf{x}}^*$ as possible. The parameters ${\boldsymbol{\theta}}$ are optimized via gradient descent (or slightly cooler versions of gradient descent).</p>
+<p>In the figure below, we see a significant qualitative improvement in the reconstructions from the U-Net, in comparison with traditional compressed sensing with total variation regularization.</p>
 <figure><img src=/ml-for-mri/unet.png alt="Knee MRI reconstructions comparison between compressed sensing with total variation regularization and the fastMRI U-Net baseline. The data is acquired using multiple coils at 4x and 8x subsampling. Reproduced from Zbontar et al. 2018." width=75%><figcaption>
 <p><strong>Knee MRI reconstructions comparison between compressed sensing with total variation regularization and the fastMRI U-Net baseline.</strong> The data is acquired using multiple coils at 4x and 8x subsampling. Reproduced from <a href=http://arxiv.org/abs/1811.08839>Zbontar et al. 2018</a>.</p>
 </figcaption>
@@ -181,7 +179,7 @@ At first, the physicians thought the VarNet images didn&rsquo;t look great becau
 <p>So how does VarNet work? It starts with a blank image, and consists of a series of refinement steps, progressively turning the blank image into a better and better version.</p>
 <figure><img src=/ml-for-mri/varnet-diagram.png width=100%>
 </figure>
-<p>Let&rsquo;s take a look at where the refinement comes from. Recall that in classical compressed sensing, we solve (4). If we write the forward operator $\mathbf{A}=\mathcal{M} \odot \mathcal{F}$, the optimization problem becomes</p>
+<p>Let&rsquo;s take a look at where the refinement comes from. Recall that in classical compressed sensing, we solve the optimization problem above. If we write the forward operator $\mathbf{A}=\mathcal{M} \odot \mathcal{F}$, the optimization problem becomes</p>
 <p>$$ \argmin_{\mathbf{x}} || \mathbf{A}\mathbf{x} - \mathbf{\tilde{y}} ||_2^2 + R(\mathbf{x})$$</p>
 <p>If we solve this via gradient descent, we get the following update equation for the $t$-th iteration of the image, ${\mathbf{x}}^t$.</p>
 <p>$${\mathbf{x}}^{t+1} = {\mathbf{x}}^t - \alpha^t (\mathbf{A}^*(\mathbf{A}{\mathbf{x}}^t - \mathbf{\tilde{y}}) + \nabla R({\mathbf{x}}^t))$$</p>
