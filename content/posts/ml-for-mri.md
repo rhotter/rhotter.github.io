@@ -1,11 +1,8 @@
 ---
 title: "Machine Learning for MRI Image Reconstruction"
-date: 2021-12-22T13:19:56-05:00
+date: 2022-01-01T13:19:56-05:00
 draft: false
 math: true
-_build:
- list: false
-
 ---
 Magnetic resonance imaging (MRI) has long scan times, sometimes close to an hour for an exam. This sucks because long scan times makes MRI exams more expensive, less accessible, and unpleasant. {{<hide prompt="How does it feel like to be in an MRI?" uniqueNum="74" no-markdown="True">}}
 Imagine hearing this for an hour. <br><br>
@@ -49,7 +46,7 @@ $$
     \mathbf{\hat{x}} = \mathcal{F}^{-1}(\mathbf{y})
 $$
 
-For simplicity, let's assume we're recording from a single coil, but these methods can be extended to multi-coil imaging (also called parallel imaging).
+(note, we're assuming that we're recording from a single MRI coil, but these methods can be extended to [multi-coil imaging](https://mriquestions.com/what-is-pi.html).)
 
 
 ## Using Less Data
@@ -86,12 +83,11 @@ How do we incorporate the fact that we know that MRI images aren't supposed to h
 
 
 It isn't enough to just look for images that are not so edgy though; we still need our images to match the measurements that we collect (otherwise, we can just make our image blank). We can combine these two components into the following optimization problem:
-
 $$
-    \argmin_{\mathbf{x}} || \mathcal{M} \odot \mathcal{F}(\mathbf{x}) - \mathbf{\tilde{y}} ||_2^2 + R _{TV}(\mathbf{x})
+\argmin_{\mathbf{x}} || \mathcal{M} \odot \mathcal{F}(\mathbf{x}) - \mathbf{\tilde{y}} ||_2^2 + R _{TV}(\mathbf{x})
 $$
 
-The left term says: "If $\mathbf{x}$ were the real image, how would the sensor data we'd capture from $\mathbf{x}$ compare with our real sensor data $\mathbf{\tilde{y}}$?" In other words, it tells us how much our reconstruction $\mathbf{x}$ agrees with our measurements $\mathbf{\tilde{y}}$. The right term, $R_{TV}(\mathbf{x})$, penalizes images if they are too edgy. The challenge is finding an image that both agrees with our measurements and isn't too edgy. Algorithms like gradient descent allows us to solve the optimization problem above. {{<hide prompt="What is gradient descent?" uniqueNum="16" >}}
+where $ || . ||_2 $ is the [L2 norm](https://en.wikipedia.org/wiki/Norm_(mathematics)#Euclidean_norm) (i.e. $||z||_2^2 = \sum_i |z_i|^2 $). The left term says: "If $\mathbf{x}$ were the real image, how would the sensor data we'd capture from $\mathbf{x}$ compare with our real sensor data $\mathbf{\tilde{y}}$?" In other words, it tells us how much our reconstruction $\mathbf{x}$ agrees with our measurements $\mathbf{\tilde{y}}$. The right term $R _ {TV} (\mathbf{x})$ penalizes images if they are too edgy. The challenge is finding an image that both agrees with our measurements and isn't too edgy. Algorithms like gradient descent allows us to solve the optimization problem above. {{<hide prompt="What is gradient descent?" uniqueNum="16" >}}
 
 Gradient descent is an iterative algorithm to minimze some function $\mathcal{L}(\boldsymbol{\theta})$. It starts at some initial parameters ${\boldsymbol{\theta}}^{(0)}$ and updates its parameters in the direction of the gradient, $\nabla L({\boldsymbol{\theta}})$, so as to locally reduce the loss function as much as possible. In the $t$-th iteration, ${\boldsymbol{\theta}}^t$ is updated to ${\boldsymbol{\theta}}^{t+1}$ via
 $$
@@ -108,7 +104,7 @@ Though compressed sensing can improve the image quality relative to a vanilla in
 
 {{< figure src="/ml-for-mri/CS.png" width="75%">}}
 
-Maybe just saying "MRI images shouldn't be very edgy" isn't enough information to cut the sensor data by a factor of 4. So other methods of compressed sensing might say "MRI images should be [sparse](https://en.wikipedia.org/wiki/Sparse_matrix)" or "MRI images should be sparse in a [wavelet basis](https://en.wikipedia.org/wiki/Wavelet_transform)." They do this by replacing $R_{TV}(\mathbf{x})$ with a more general $R(\mathbf{x})$, which we call a regularizer. The difficulty with classical compressed sensing is that humans must manually encode what an MRI should look like through the regularizer $R(\mathbf{x})$​. We can come up with basic heuristics like the examples above, but ultimately deciding whether an image looks like it could have come from an MRI is a complicated process. {{<hide prompt="How do you interpret R(x) using information theory?" uniqueNum="1">}}
+Maybe just saying "MRI images shouldn't be very edgy" isn't enough information to cut the sensor data by a factor of 4. So other methods of compressed sensing might say "MRI images should be [sparse](https://en.wikipedia.org/wiki/Sparse_matrix)" or "MRI images should be sparse in a [wavelet basis](https://en.wikipedia.org/wiki/Wavelet_transform)." These methods do this by replacing $R_{TV}(\mathbf{x})$ with a more general $R(\mathbf{x})$, which we call a regularizer. The difficulty with classical compressed sensing is that humans must manually encode what an MRI should look like through the regularizer $R(\mathbf{x})$​. We can come up with basic heuristics like the examples above, but ultimately deciding whether an image looks like it could have come from an MRI is a complicated process. {{<hide prompt="How do you interpret R(x) using information theory?" uniqueNum="1">}}
 
 If you use maximum _a posteriori_ estimation, you can show that $R(\mathbf{x}) \propto -\log p(\mathbf{x})$! We call $p(\mathbf{x})$ the prior distribution. So $ R(\mathbf{x})$ is really a measure of how many bits you need to encode your image $\mathbf{x}$ with your prior.
 
@@ -117,7 +113,7 @@ If you use maximum _a posteriori_ estimation, you can show that $R(\mathbf{x}) \
 Enter machine learning... Over the past decade-ish, machine learning has had great success in learning functions that humans have difficulty hard coding. It has revolutionized the fields of computer vision, natural language processing, among others. Instead of hard coding functions, machine learning algorithms learn functions from data. In the next section, we will explore a few recent machine learning approaches to MRI image reconstruction.
 
 {{<hide prompt="Did you know Terence Tao was one of the pioneers of compressed sensing?" uniqueNum="12">}}
-It turns out [Terence Tao](https://en.wikipedia.org/wiki/Terence_Tao)'s most cited paper is from his work on compressed sensing!
+It turns out [Terence Tao](https://en.wikipedia.org/wiki/Terence_Tao)'s [most cited paper](https://ieeexplore.ieee.org/abstract/document/1580791) is from his work on compressed sensing!
 {{</hide>}}
 
 ## Machine Learning Comes to the Rescue
@@ -153,9 +149,7 @@ How can we tell our machine learning method about the physics of MRI image recon
 We can formally write the operations performed by this network as
 $$ \mathbf{\hat{x}} = \text{UNET}_{{\boldsymbol{\theta}}}(\mathcal{F}^{-1}(\mathbf{\tilde{y}}))$$
 
-where $\mathbf{\tilde{y}}$ is the subsampled sensor data, and $\text{UNET}_{\boldsymbol{\theta}}$ is the U-Net parameterized by a vector of parameters ${\boldsymbol{\theta}}$.
-
-The parameters ${\boldsymbol{\theta}}$ of the U-Net are optimized in order to minimize the following loss function.
+where $\mathbf{\tilde{y}}$ is the subsampled sensor data, and $\text{UNET}_{\boldsymbol{\theta}}$ is the U-Net parameterized by a vector of parameters ${\boldsymbol{\theta}}$. The parameters ${\boldsymbol{\theta}}$ of the U-Net are optimized in order to minimize the following loss function.
 
 $$    \mathcal{L}({\boldsymbol{\theta}}) = \sum_{(\mathbf{\tilde{y}},{\mathbf{x}}^*) \in \mathcal{D}} ||\text{UNET}_{\boldsymbol{\theta}}(\mathcal{F}^{-1}(\mathbf{\tilde{y}})) - \mathbf{x^{\*}} ||_1$$
 
@@ -166,14 +160,14 @@ In the figure below, we see a significant qualitative improvement in the reconst
 {{<figure src="/ml-for-mri/unet.png" width="75%" caption=`**Knee MRI reconstructions comparison between compressed sensing with total variation regularization and the fastMRI U-Net baseline.** The data is acquired using multiple coils at 4x and 8x subsampling. Reproduced from [Zbontar et al. 2018](http://arxiv.org/abs/1811.08839).`>}}
 
 {{<hide prompt="Wait, but where does the training data come from?" uniqueNum="17">}}
-In 2019, Facebook AI released an MRI dataset called fastMRI (Zbontar 2018). The dataset contains 8344 brain and knee MRI scans. The scans contain raw fully sampled sensor data as well as the corresponding image reconstructions. The scans were done with a variety of MRI parameters (different pulse sequences, field strengths, repetition times, and echo times). The diversity of parameters is important: we want image reconstruction methods to work for all relevant clinical parameters. The dataset also includes 20,000 brain and knee MRI scans that only contain the reconstructed images and not the sensor data (it is also not straightforward to get the raw frequency-domain data from the images as there are multiple coils and postprocessing).
+In 2019, Facebook AI released an MRI dataset called [fastMRI](http://arxiv.org/abs/1811.08839). The dataset contains 8344 brain and knee MRI scans. The scans contain raw fully sampled sensor data as well as the corresponding image reconstructions. The scans were done with a variety of MRI parameters (different pulse sequences, field strengths, repetition times, and echo times). The diversity of parameters is important: we want image reconstruction methods to work for all relevant clinical parameters. The dataset also includes 20,000 brain and knee MRI scans that only contain the reconstructed images and not the sensor data (it is also not straightforward to get the raw frequency-domain data from the images as there are multiple coils and postprocessing).
 
 The dataset consists of both a training set and a test set. The training set is used to set the parameters of the model, and the test set is used to evaluate the model.
 {{</hide>}}
 
 ### VarNet
 
-Instead of just feeding a physics-informed guess to a U-Net, VarNet uses the physics of MRI at multiple steps in its network. Recently, an [interchangeability study of VarNet](https://www.ajronline.org/doi/10.2214/AJR.20.23313) was done. It found that using $1/4$th of the data with VarNet was diagnostically interchangeable with the ground truth reconstruction. In other words, radiologists made the same diagnoses with both methods! {{<hide prompt="Tell me a funny story about this study" uniqueNum="14">}}
+Instead of just feeding a physics-informed guess to a U-Net, VarNet uses the physics of MRI at multiple steps in its network ([Sriram et al. 2020](http://arxiv.org/abs/2004.06688) & [Hammernik et al. 2018](http://arxiv.org/abs/1704.00447)). Recently, an [interchangeability study of VarNet](https://www.ajronline.org/doi/10.2214/AJR.20.23313) was done. It found that 1/4-th of the data with VarNet was diagnostically interchangeable with the ground truth reconstructions. In other words, radiologists made the same diagnoses with both methods! {{<hide prompt="Tell me a funny story about this study" uniqueNum="14">}}
 
 At first, the physicians thought the VarNet images didn't look great because the images were too smooth. So the authors added some random Gaussian noise, and then the physicians loved the images! In fact, the authors give a fancy name to their process of adding random noise; they call it "adaptive image dithering."
 {{</hide>}}
@@ -188,19 +182,21 @@ So how does VarNet work? It starts with a blank image, and consists of a series 
 
 <!-- caption=`**The process of VarNet.** An image starts off as blank and is updated iteratively via (9), producing a better image at each step. To train VarNet, the image at the final $T$th step is compared with the ground truth via a loss function, $\mathcal{L}(\boldsymbol{\theta})$, and the parameters of VarNet, $\boldsymbol{\theta}$, are updated via gradient descent.`-->
 
-Let's take a look at where the refinement comes from. Recall that in classical compressed sensing, we solve the optimization problem above. If we write the forward operator $\mathbf{A}=\mathcal{M} \odot \mathcal{F}$, the optimization problem becomes
+Let's take a look at where the refinement step comes from. Recall that in classical compressed sensing, we solve the optimization problem above. Writing the forward operator $\mathbf{A}=\mathcal{M} \odot \mathcal{F}$, the optimization problem for compressed sensing becomes:
 
 $$ \argmin_{\mathbf{x}} || \mathbf{A}\mathbf{x} - \mathbf{\tilde{y}} ||_2^2 + R(\mathbf{x})$$
 
-If we solve this via gradient descent, we get the following update equation for the $t$-th iteration of the image, ${\mathbf{x}}^t$.
+This is not the optimization problem for VarNet, but we will use a cool trick, called unrolled optimization:
+
+If we solve the compressed sensing objective function via gradient descent, we get the following update equation for the $t$-th iteration of the image, ${\mathbf{x}}^t$.
 
 $${\mathbf{x}}^{t+1} = {\mathbf{x}}^t - \alpha^t (\mathbf{A}^*(\mathbf{A}{\mathbf{x}}^t - \mathbf{\tilde{y}}) + \nabla R({\mathbf{x}}^t))$$
 
-where $\mathbf{A}^*$ is the [adjoint](https://en.wikipedia.org/wiki/Conjugate_transpose) of $\mathbf{A}$. Note that gradient descent in the above is done on the image $\mathbf{x}$, as opposed to ${\boldsymbol{\theta}}$ . Instead of hard coding the regularizer $R(\mathbf{x}^t)$, we can replace it with a neural network. We do this by replacing $\nabla R(\mathbf{x}^t)$ with a CNN. We get a new update equation:
+where $\mathbf{A}^*$ is the [adjoint](https://en.wikipedia.org/wiki/Conjugate_transpose) of $\mathbf{A}$. Note that gradient descent in the above equation is done on the image $\mathbf{x}$, as opposed to ${\boldsymbol{\theta}}$ . Now here's the trick! Instead of hard coding the regularizer $R(\mathbf{x}^t)$, we can replace it with a neural network. We do this by replacing $\nabla R(\mathbf{x}^t)$ with a CNN. We get a new update equation:
 
 $${\mathbf{x}}^{t+1} = {\mathbf{x}}^t - \alpha^t \mathbf{A}^*(\mathbf{A}{\mathbf{x}}^t - \mathbf{\tilde{y}}) + \text{CNN}_{\boldsymbol{\theta}} ({\mathbf{x}}^t)$$
 
-The VarNet architecture ([Sriram et al. 2020](http://arxiv.org/abs/2004.06688) & [Hammernik et al. 2018](http://arxiv.org/abs/1704.00447)) consists of multiple layers. Each layer takes the output of the previous layer, ${\mathbf{x}}^t$, as its input, and outputs ${\mathbf{x}}^{t+1}$ according to the above equation. This style of architecture is called unrolled optimization. In practice, VarNet has about 8 layers, and the CNN is a U-Net. The parameters of the U-Net are updated via gradient descent on $\boldsymbol{\theta}$, but the loss function, $\mathcal{L}({\boldsymbol{\theta}})$, is taken to be the structural similarity index measure (SSIM). {{<hide prompt="What is SSIM?" uniqueNum="3">}}
+The VarNet architecture consists of multiple layers. Each layer takes the output of the previous layer, ${\mathbf{x}}^t$, as its input, and outputs ${\mathbf{x}}^{t+1}$ according to the above equation. In practice, VarNet has about 8 layers, and the CNN is a U-Net. The parameters of the U-Net are updated via gradient descent on $\boldsymbol{\theta}$, and the loss function $\mathcal{L}({\boldsymbol{\theta}})$ is taken to be the structural similarity index measure (SSIM). {{<hide prompt="What is SSIM?" uniqueNum="3">}}
 The SSIM is a measure of similarity for images that is more aligned with the human perceptual system than the mean-squared error. It compares two images across three dimensions: luminosity, contrast, and structural similarity. A great explanation of SSIM can be found in [this blog post](https://bluesky314.github.io/ssim/).
 {{</hide>}}
 
@@ -219,9 +215,9 @@ $$
 
 
 ### Deep Generative Priors
-All methods above required access to a dataset that had both MRI images paired with raw sensor data. However, to my understanding, the raw sensor data is not typically saved. Constructing a dataset with only the MRI images and without the raw sensor data might be easier. Fortunately, there are machine learning methods that only require MRI images as training data. 
+All methods above required access to a dataset that had both MRI images and the raw sensor data. However, to my understanding, the raw sensor data is not typically saved. Constructing a dataset with only the MRI images and without the raw sensor data might be easier. Fortunately, there are machine learning methods that only require MRI images as training data (i.e. [unsupervised models](https://en.wikipedia.org/wiki/Unsupervised_learning)). 
 
-One approach is to train what is called a generative model. Generative models are very popular in the computer vision community for generating realistic human faces or scenes (that it has never seen before!). Similarly, we can train a generative model to generate new MRI-like images.
+One approach is to train what is called a [generative model](https://en.wikipedia.org/wiki/Generative_model#Deep_generative_models). Generative models are very popular in the computer vision community for generating realistic human faces or scenes (that it has never seen before!). Similarly, we can train a generative model to generate new MRI-like images.
 
 Formally, a generative model is a mapping $G_{\boldsymbol{\theta}}: \mathbb{R}^m \rightarrow \mathbb{R}^n$, often with $m \ll n$ (i.e. the input space is often much smaller than the output space). The generative model learns to turn any random vector $\mathbf{z} \in \mathbb{R}^m$ into a realistic image $\mathbf{x} \in \mathbb{R}^n$.
 
