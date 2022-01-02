@@ -11,7 +11,7 @@ Imagine hearing this for an hour. <br><br>
 
 {{</hide>}}
 
-Here, I review some methods in machine learning that aim to reduce the scan time through new ways of image reconstruction. Smarter image reconstructions allows us to acquire way less data, which means shorter scan times. These techniques are pretty general and can be applied to other image reconstruction problems.
+Here, I review some methods in machine learning that aim to reduce the scan time through new ways of image reconstruction. Smarter image reconstruction allows us to acquire way less data, which means shorter scan times. These techniques are pretty general and can be applied to other image reconstruction problems.
 
 *Disclaimer: This is not meant to be a comprehensive review. Rather, it is just a sample of some methods I found cool.*
 
