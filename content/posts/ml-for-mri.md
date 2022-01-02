@@ -14,8 +14,9 @@ Imagine hearing this for an hour. <br><br>
 
 {{</hide>}}
 
+Here, I review some methods in machine learning that aim to reduce the scan time through new ways of image reconstruction. Smarter image reconstructions allows us to acquire way less data, which means shorter scan times. These techniques are pretty general and can be applied to other image reconstruction problems.
 
-Here, I review the latest methods in machine learning that aim to reduce the scan time through new ways of image reconstruction. Smarter image reconstructions allows us to acquire way less data, which means shorter scan times. These techniques are pretty general and can be applied to other image reconstruction problems.
+*Disclaimer: This is not meant to be a comprehensive review. Rather, it is just a sample of some methods I found cool.*
 
 
 ## MRI Image Reconstruction
@@ -29,9 +30,7 @@ How in the world is this data useful? Image reconstruction is this incredible pr
 
 {{< figure src="/ml-for-mri/mri-knee.png" width="50%">}}
 
-Now that's much better! (this is an MRI of the knee)
-
-So how does this magical procedure of turning sensor data into images work? 
+Now that's much better! (this is an MRI of the knee.) So how does this magical procedure of turning sensor data into images work? 
 
 A nice way to frame this problem is to consider the signals the sensors pick up as a mathematical transformation of the image. In this framing, creating an image is inverting this mathematical transformation. This might seem backward, but it’ll become handy soon.
 
@@ -54,7 +53,7 @@ For simplicity, let's assume we're recording from a single coil, but these metho
 
 
 ## Using Less Data
-The MRI Gods tell us that if we want to reconstruct an image with $n$ pixels (or voxels), we need at least $n$ frequencies. {{<hide prompt="Why?" uniqueNum="5">}}
+The MRI Gods (linear algebra) tell us that if we want to reconstruct an image with $n$ pixels (or voxels), we need at least $n$ frequencies. {{<hide prompt="Why?" uniqueNum="5">}}
 This can be seen using a bit of linear algebra. Since the Fourier transform is linear, we can represent it by an $n\times n$ matrix, say $\mathbf{F}$, with each column of $\mathbf{F}$ corresponding to a different frequency. If we only use a subset of the frequencies, this amounts to removing some of the columns of $\mathbf{F}$. But then the new version of $\mathbf{F}$ has less than $n$ columns, which means the problem of finding an $\mathbf{x}$ such that $\mathbf{F} \mathbf{x}=\mathbf{y}$ is underdetermined. Therefore, there are infinitely many images $\mathbf{x}$ that are consistent with the sensor data.
 {{</hide>}}
 
@@ -64,9 +63,7 @@ But the problem with acquiring $n$ frequencies is that it takes a lot of time. T
 
 So suppose we drink a bit too much and forget about the linear algebra result, only acquiring a subset of the frequencies. Let's set the data at the frequencies that we didn't acquire to be 0. We can write this as
 
-\begin{equation}
-    \mathbf{\tilde{y}} = \mathcal{M} \odot \mathbf{y} = \mathcal{M} \odot \mathcal{F} (\mathbf{x}^*)
-\end{equation}
+$$\mathbf{\tilde{y}} = \mathcal{M} \odot \mathbf{y} = \mathcal{M} \odot \mathcal{F} (\mathbf{x}^*)$$
 where $\mathcal{M}$ is a masking matrix filled with 0s and 1s, and $\odot$ denotes element-wise multiplication. If we try to reconstruct the same knee MRI data as above with less frequencies, we get (aliasing) artifacts:
 
 {{<figure src="/ml-for-mri/simple-compressed-recon.png" width="75%">}}
@@ -80,11 +77,11 @@ More of the information in the signal is contained in the low frequencies, so we
 
 So our dreams of using less frequencies are over, right?
 
-What if we add more information to the image reconstruction process that is not from the current measurement $\mathbf{\tilde{y}} $? For example, in compressed sensing, we can assume that the desired image $\mathbf{x}$ doesn't have many edges (i.e. we can "compress" the edges). Here's a knee MRI along with its edge map, which we see is very sparse:
+What if we add more information to the image reconstruction process that is not from the current measurement $\mathbf{\tilde{y}} $? For example, in compressed sensing, we can assume that the desired image $\mathbf{x}$ doesn't have many edges (i.e. that we can "compress" the edges). Here's a knee MRI along with its edge map, which we see is very sparse:
 
 {{<figure src="/ml-for-mri/knee-edges.png" width="75%">}}
 
-How do we incorporate the fact that we know that MRI images aren't supposed to have many edges? First, we need some way of counting how many edges are in an MRI image. Edges are places in the image with high spatial derivative, so  decent way to count edges is by summing the spatial derivatives (this is called the total variation and we can write this mathematically as $R_{TV}(\mathbf{x}) = ||\nabla \mathbf{x}||_1$, where $\nabla$ is the spatial gradient and $||.||_1$ is the [L1 norm](https://en.wikipedia.org/wiki/Norm_(mathematics)#Taxicab_norm_or_Manhattan_norm)).
+How do we incorporate the fact that we know that MRI images aren't supposed to have many edges? First, we need some way of counting how many edges are in an MRI image. Edges are places in the image with high spatial derivatives, so a  decent way to count edges is by summing the spatial derivatives (this is called the total variation, and we can write this mathematically as $R_{TV}(\mathbf{x}) = ||\nabla \mathbf{x}||_1$, where $\nabla$ is the spatial gradient and $||.||_1$ is the [L1 norm](https://en.wikipedia.org/wiki/Norm_(mathematics)#Taxicab_norm_or_Manhattan_norm)).
 
 
 
@@ -94,7 +91,7 @@ $$
     \argmin_{\mathbf{x}} || \mathcal{M} \odot \mathcal{F}(\mathbf{x}) - \mathbf{\tilde{y}} ||_2^2 + R _{TV}(\mathbf{x})
 $$
 
-The left term says: "If $\mathbf{x}$ were the real image, how would the sensor data we'd capture from $\mathbf{x}$ compare with our real sensor data $\mathbf{\tilde{y}}$?" In other words, it tells us how much our reconstruction $\mathbf{x}$ agrees with our measurements $\mathbf{\tilde{y}}$. The right term, $R(\mathbf{x})$, penalizes images if they are too edgy. $R(\mathbf{x})$ is called a regularizer. The challenge is finding an image that both agrees with our measurements and isn't too edgy. Algorithms like gradient descent allows us to solve (4). {{<hide prompt="What is gradient descent?" uniqueNum="16" >}}
+The left term says: "If $\mathbf{x}$ were the real image, how would the sensor data we'd capture from $\mathbf{x}$ compare with our real sensor data $\mathbf{\tilde{y}}$?" In other words, it tells us how much our reconstruction $\mathbf{x}$ agrees with our measurements $\mathbf{\tilde{y}}$. The right term, $R_{TV}(\mathbf{x})$, penalizes images if they are too edgy. The challenge is finding an image that both agrees with our measurements and isn't too edgy. Algorithms like gradient descent allows us to solve the optimization problem above. {{<hide prompt="What is gradient descent?" uniqueNum="16" >}}
 
 Gradient descent is an iterative algorithm to minimze some function $\mathcal{L}(\boldsymbol{\theta})$. It starts at some initial parameters ${\boldsymbol{\theta}}^{(0)}$ and updates its parameters in the direction of the gradient, $\nabla L({\boldsymbol{\theta}})$, so as to locally reduce the loss function as much as possible. In the $t$-th iteration, ${\boldsymbol{\theta}}^t$ is updated to ${\boldsymbol{\theta}}^{t+1}$ via
 $$
@@ -107,11 +104,11 @@ You might worry that gradient descent gets stuck in local minima, but in practic
 
 {{</hide >}}
 
-Though compressed sensing can improve the image quality relative to a vanilla inverse Fourier transform, it still suffers from artifacts. Below is another knee MRI with 4x subsampled data ([source](http://arxiv.org/abs/1811.08839)):
+Though compressed sensing can improve the image quality relative to a vanilla inverse Fourier transform, it still suffers from artifacts. Below is another knee MRI with 4x subsampled data, and compares the vanilla inverse fourier transform with TV-compressed sensing ([source](http://arxiv.org/abs/1811.08839)):
 
 {{< figure src="/ml-for-mri/CS.png" width="75%">}}
 
-Maybe just saying "MRI images shouldn't be very edgy" isn't enough information to cut the sensor data by a factor of 4. So other methods of compressed sensing might say "MRI images should be sparse" or "MRI images should be sparse in a wavelet basis." They do this by replacing $R_{TV}(\mathbf{x})$ with a more general $R(\mathbf{x})$. The difficulty with classical compressed sensing is that humans must manually encode what an MRI should look like through the regularizer $R(\mathbf{x})$​. We can come up with basic heuristics like the examples above, but ultimately deciding whether an image looks like it could have come from an MRI is a complicated process. {{<hide prompt="How do you interpret R(x) using information theory?" uniqueNum="1">}}
+Maybe just saying "MRI images shouldn't be very edgy" isn't enough information to cut the sensor data by a factor of 4. So other methods of compressed sensing might say "MRI images should be [sparse](https://en.wikipedia.org/wiki/Sparse_matrix)" or "MRI images should be sparse in a [wavelet basis](https://en.wikipedia.org/wiki/Wavelet_transform)." They do this by replacing $R_{TV}(\mathbf{x})$ with a more general $R(\mathbf{x})$, which we call a regularizer. The difficulty with classical compressed sensing is that humans must manually encode what an MRI should look like through the regularizer $R(\mathbf{x})$​. We can come up with basic heuristics like the examples above, but ultimately deciding whether an image looks like it could have come from an MRI is a complicated process. {{<hide prompt="How do you interpret R(x) using information theory?" uniqueNum="1">}}
 
 If you use maximum _a posteriori_ estimation, you can show that $R(\mathbf{x}) \propto -\log p(\mathbf{x})$! We call $p(\mathbf{x})$ the prior distribution. So $ R(\mathbf{x})$ is really a measure of how many bits you need to encode your image $\mathbf{x}$ with your prior.
 
@@ -142,11 +139,11 @@ CNNs have achieved incredible success on a variety of computer vision problems. 
 
 
 
-The CNN would take in the sensor measurements, $\mathbf{\tilde{y}}$, and output its predicted image $\mathbf{\hat{x}}$[^3]. After collecting a dataset that includes both measurements $\mathbf{\tilde{y}}$ and properly reconstructed images $\mathbf{{x}^*}$, you can train the neural network to make its predicted images as close to the ground truth images.
+The CNN could take in the sensor measurements $\mathbf{\tilde{y}}$ and output its predicted image $\mathbf{\hat{x}}$[^3]. After collecting a dataset that includes both measurements $\mathbf{\tilde{y}}$ and properly reconstructed images $\mathbf{{x}^*}$, you can train the neural network to make its predicted images as close to the ground truth images.
 
 [^3]: Typically in machine learning, we use $\mathbf{x}$ to represent the input, and $\mathbf{y}$ as the output. But since image reconstruction is an "inverse problem," we use the opposite notation.
 
-The problem with this approach is that we don't tell the neural network anything about the physics of MRI. This means it has to learn to do MRI image reconstruction essentially from scratch, which will require a lot of training data.
+The problem with this approach is that we don't tell the neural network anything about the physics of MRI. This means it has to learn to do MRI image reconstruction from scratch, which will require a lot of training data.
 
 ### U-Net MRI
 How can we tell our machine learning method about the physics of MRI image reconstruction? One idea is to first turn the sensor data into an image via an inverse Fourier transform before feeding it into a CNN. Now, the CNN would just have to "clean up" what was missed by the inverse Fourier transform. This is the approach taken by [U-Net MRI](http://arxiv.org/abs/1811.08839), where the CNN is chosen to be a U-Net. [U-Nets](https://arxiv.org/abs/1505.04597) are a popular image-to-image model for biomedical applications. 
@@ -154,7 +151,7 @@ How can we tell our machine learning method about the physics of MRI image recon
 {{<figure src="/ml-for-mri/unet-diagram.png" width="100%">}}
 
 We can formally write the operations performed by this network as
-$$ \mathbf{\hat{x}} = f_{{\boldsymbol{\theta}}}(\mathbf{\tilde{y}}) = \text{UNET}_{{\boldsymbol{\theta}}}(\mathcal{F}^{-1}(\mathbf{\tilde{y}}))$$
+$$ \mathbf{\hat{x}} = \text{UNET}_{{\boldsymbol{\theta}}}(\mathcal{F}^{-1}(\mathbf{\tilde{y}}))$$
 
 where $\mathbf{\tilde{y}}$ is the subsampled sensor data, and $\text{UNET}_{\boldsymbol{\theta}}$ is the U-Net parameterized by a vector of parameters ${\boldsymbol{\theta}}$.
 
@@ -162,9 +159,9 @@ The parameters ${\boldsymbol{\theta}}$ of the U-Net are optimized in order to mi
 
 $$    \mathcal{L}({\boldsymbol{\theta}}) = \sum_{(\mathbf{\tilde{y}},{\mathbf{x}}^*) \in \mathcal{D}} ||\text{UNET}_{\boldsymbol{\theta}}(\mathcal{F}^{-1}(\mathbf{\tilde{y}})) - \mathbf{x^{\*}} ||_1$$
 
-where $\mathbf{\tilde{y}}$ and $\mathbf{x}^\*$ are subsampled sensor, image reconstruction pairs from the dataset $\mathcal{D}$. In words, our neural network takes as its input subsampled sensor data $\mathbf{\tilde{y}}$ and tries to product an output $\text{UNET}_{\boldsymbol{\theta}}(\mathcal{F}^{-1}(\mathbf{\tilde{y}}))$ that is as close to the real image ${\mathbf{x}}^*$ as possible. The parameters ${\boldsymbol{\theta}}$ are optimized via gradient descent (or slightly cooler versions of gradient descent).
+where $\mathbf{\tilde{y}}$ and $\mathbf{x}^\*$ are subsampled sensor data and ground truth images, respectively, sampled from the dataset $\mathcal{D}$. In words, our neural network takes as its input subsampled sensor data $\mathbf{\tilde{y}}$ and tries to output $\text{UNET}_{\boldsymbol{\theta}}(\mathcal{F}^{-1}(\mathbf{\tilde{y}}))$ that is as close to the real image ${\mathbf{x}}^*$ as possible. The parameters ${\boldsymbol{\theta}}$ are optimized via gradient descent (or slightly cooler versions of gradient descent).
 
-In the figure below, we see a significant qualitative improvement in the reconstructions from the U-Net relative to traditional compressed sensing with total variation regularization.
+In the figure below, we see a significant qualitative improvement in the reconstructions from the U-Net, in comparison with traditional compressed sensing with total variation regularization.
 
 {{<figure src="/ml-for-mri/unet.png" width="75%" caption=`**Knee MRI reconstructions comparison between compressed sensing with total variation regularization and the fastMRI U-Net baseline.** The data is acquired using multiple coils at 4x and 8x subsampling. Reproduced from [Zbontar et al. 2018](http://arxiv.org/abs/1811.08839).`>}}
 
@@ -191,7 +188,7 @@ So how does VarNet work? It starts with a blank image, and consists of a series 
 
 <!-- caption=`**The process of VarNet.** An image starts off as blank and is updated iteratively via (9), producing a better image at each step. To train VarNet, the image at the final $T$th step is compared with the ground truth via a loss function, $\mathcal{L}(\boldsymbol{\theta})$, and the parameters of VarNet, $\boldsymbol{\theta}$, are updated via gradient descent.`-->
 
-Let's take a look at where the refinement comes from. Recall that in classical compressed sensing, we solve (4). If we write the forward operator $\mathbf{A}=\mathcal{M} \odot \mathcal{F}$, the optimization problem becomes
+Let's take a look at where the refinement comes from. Recall that in classical compressed sensing, we solve the optimization problem above. If we write the forward operator $\mathbf{A}=\mathcal{M} \odot \mathcal{F}$, the optimization problem becomes
 
 $$ \argmin_{\mathbf{x}} || \mathbf{A}\mathbf{x} - \mathbf{\tilde{y}} ||_2^2 + R(\mathbf{x})$$
 
