@@ -219,7 +219,7 @@ All methods above required access to a dataset that had both MRI images and the 
 
 One approach is to train what is called a [generative model](https://en.wikipedia.org/wiki/Generative_model#Deep_generative_models). Generative models are very popular in the computer vision community for generating realistic human faces or scenes (that it has never seen before!). Similarly, we can train a generative model to generate new MRI-like images.
 
-A generative MRI model is a function $G_{\boldsymbol{\theta}}$ that tries to turns any random vector $\mathbf{z} \in \mathbb{R}^m$ into a realistic image $\mathbf{x} \in \mathbb{R}^n$. Typicaly,  $m \ll n$, i.e., the input space is often much smaller than the output space. 
+A generative MRI model is a function $G_{\boldsymbol{\theta}}$ that tries to turn any random vector $\mathbf{z} \in \mathbb{R}^m$ into a realistic image $\mathbf{x} \in \mathbb{R}^n$. Typicaly,  $m \ll n$, i.e., the input space is often much smaller than the output space. 
 
 Image reconstruction with generative models is done by solving the optimization problem:
 \begin{equation}
