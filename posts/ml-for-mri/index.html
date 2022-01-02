@@ -6,8 +6,8 @@
 <meta property="og:description" content="Magnetic resonance imaging (MRI) has long scan times, sometimes close to an hour for an exam. This sucks because long scan times makes MRI exams more expensive, less accessible, and unpleasant.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://rhotter.github.io/posts/ml-for-mri/"><meta property="article:section" content="posts">
-<meta property="article:published_time" content="2021-12-22T13:19:56-05:00">
-<meta property="article:modified_time" content="2021-12-22T13:19:56-05:00">
+<meta property="article:published_time" content="2022-01-01T13:19:56-05:00">
+<meta property="article:modified_time" content="2022-01-01T13:19:56-05:00">
 <meta name=twitter:card content="summary">
 <meta name=twitter:title content="Machine Learning for MRI Image Reconstruction">
 <meta name=twitter:description content="Magnetic resonance imaging (MRI) has long scan times, sometimes close to an hour for an exam. This sucks because long scan times makes MRI exams more expensive, less accessible, and unpleasant.">
@@ -47,7 +47,7 @@
 </div>
 <div class=post-header>
 <h1 class=title>Machine Learning for MRI Image Reconstruction</h1>
-<div class=meta>Dec 22, 2021</div>
+<div class=meta>Jan 1, 2022</div>
 </div>
 <div class=markdown>
 <p>Magnetic resonance imaging (MRI) has long scan times, sometimes close to an hour for an exam. This sucks because long scan times makes MRI exams more expensive, less accessible, and unpleasant. <a onclick='showHide("How does it feel like to be in an MRI?","74")' id=74>[How does it feel like to be in an MRI?]</a>
@@ -79,7 +79,7 @@ $$</p>
 $$
 \mathbf{\hat{x}} = \mathcal{F}^{-1}(\mathbf{y})
 $$</p>
-<p>For simplicity, let&rsquo;s assume we&rsquo;re recording from a single coil, but these methods can be extended to multi-coil imaging (also called parallel imaging).</p>
+<p>(note, we&rsquo;re assuming that we&rsquo;re recording from a single MRI coil, but these methods can be extended to <a href=https://mriquestions.com/what-is-pi.html>multi-coil imaging</a>.)</p>
 <h2 id=using-less-data>Using Less Data</h2>
 <p>The MRI Gods (linear algebra) tell us that if we want to reconstruct an image with $n$ pixels (or voxels), we need at least $n$ frequencies. <a onclick='showHide("Why?","5")' id=5>[Why?]</a>
 <div id=hidden-5 class=explanation style=display:none>
@@ -103,11 +103,11 @@ where $\mathcal{M}$ is a masking matrix filled with 0s and 1s, and $\odot$ denot
 <figure><img src=/ml-for-mri/knee-edges.png width=75%>
 </figure>
 <p>How do we incorporate the fact that we know that MRI images aren&rsquo;t supposed to have many edges? First, we need some way of counting how many edges are in an MRI image. Edges are places in the image with high spatial derivatives, so a decent way to count edges is by summing the spatial derivatives (this is called the total variation, and we can write this mathematically as $R_{TV}(\mathbf{x}) = ||\nabla \mathbf{x}||_1$, where $\nabla$ is the spatial gradient and $||.||_1$ is the <a href=https://en.wikipedia.org/wiki/Norm_(mathematics)#Taxicab_norm_or_Manhattan_norm>L1 norm</a>).</p>
-<p>It isn&rsquo;t enough to just look for images that are not so edgy though; we still need our images to match the measurements that we collect (otherwise, we can just make our image blank). We can combine these two components into the following optimization problem:</p>
-<p>$$
+<p>It isn&rsquo;t enough to just look for images that are not so edgy though; we still need our images to match the measurements that we collect (otherwise, we can just make our image blank). We can combine these two components into the following optimization problem:
+$$
 \argmin_{\mathbf{x}} || \mathcal{M} \odot \mathcal{F}(\mathbf{x}) - \mathbf{\tilde{y}} ||_2^2 + R _{TV}(\mathbf{x})
 $$</p>
-<p>The left term says: &ldquo;If $\mathbf{x}$ were the real image, how would the sensor data we&rsquo;d capture from $\mathbf{x}$ compare with our real sensor data $\mathbf{\tilde{y}}$?&rdquo; In other words, it tells us how much our reconstruction $\mathbf{x}$ agrees with our measurements $\mathbf{\tilde{y}}$. The right term, $R_{TV}(\mathbf{x})$, penalizes images if they are too edgy. The challenge is finding an image that both agrees with our measurements and isn&rsquo;t too edgy. Algorithms like gradient descent allows us to solve the optimization problem above. <a onclick='showHide("What is gradient descent?","16")' id=16>[What is gradient descent?]</a>
+<p>where $ || . ||_2 $ is the <a href=https://en.wikipedia.org/wiki/Norm_(mathematics)#Euclidean_norm>L2 norm</a> (i.e. $||z||_2^2 = \sum_i |z_i|^2 $). The left term says: &ldquo;If $\mathbf{x}$ were the real image, how would the sensor data we&rsquo;d capture from $\mathbf{x}$ compare with our real sensor data $\mathbf{\tilde{y}}$?&rdquo; In other words, it tells us how much our reconstruction $\mathbf{x}$ agrees with our measurements $\mathbf{\tilde{y}}$. The right term $R _ {TV} (\mathbf{x})$ penalizes images if they are too edgy. The challenge is finding an image that both agrees with our measurements and isn&rsquo;t too edgy. Algorithms like gradient descent allows us to solve the optimization problem above. <a onclick='showHide("What is gradient descent?","16")' id=16>[What is gradient descent?]</a>
 <div id=hidden-16 class=explanation style=display:none>
 <p>Gradient descent is an iterative algorithm to minimze some function $\mathcal{L}(\boldsymbol{\theta})$. It starts at some initial parameters ${\boldsymbol{\theta}}^{(0)}$ and updates its parameters in the direction of the gradient, $\nabla L({\boldsymbol{\theta}})$, so as to locally reduce the loss function as much as possible. In the $t$-th iteration, ${\boldsymbol{\theta}}^t$ is updated to ${\boldsymbol{\theta}}^{t+1}$ via
 $$
@@ -120,7 +120,7 @@ where $t$ is the iteration number, $\alpha^{t}$ is called the learning rate, ${\
 <p>Though compressed sensing can improve the image quality relative to a vanilla inverse Fourier transform, it still suffers from artifacts. Below is another knee MRI with 4x subsampled data, and compares the vanilla inverse fourier transform with TV-compressed sensing (<a href=http://arxiv.org/abs/1811.08839>source</a>):</p>
 <figure><img src=/ml-for-mri/CS.png width=75%>
 </figure>
-<p>Maybe just saying &ldquo;MRI images shouldn&rsquo;t be very edgy&rdquo; isn&rsquo;t enough information to cut the sensor data by a factor of 4. So other methods of compressed sensing might say &ldquo;MRI images should be <a href=https://en.wikipedia.org/wiki/Sparse_matrix>sparse</a>&rdquo; or &ldquo;MRI images should be sparse in a <a href=https://en.wikipedia.org/wiki/Wavelet_transform>wavelet basis</a>.&rdquo; They do this by replacing $R_{TV}(\mathbf{x})$ with a more general $R(\mathbf{x})$, which we call a regularizer. The difficulty with classical compressed sensing is that humans must manually encode what an MRI should look like through the regularizer $R(\mathbf{x})$​. We can come up with basic heuristics like the examples above, but ultimately deciding whether an image looks like it could have come from an MRI is a complicated process. <a onclick='showHide("How do you interpret R(x) using information theory?","1")' id=1>[How do you interpret R(x) using information theory?]</a>
+<p>Maybe just saying &ldquo;MRI images shouldn&rsquo;t be very edgy&rdquo; isn&rsquo;t enough information to cut the sensor data by a factor of 4. So other methods of compressed sensing might say &ldquo;MRI images should be <a href=https://en.wikipedia.org/wiki/Sparse_matrix>sparse</a>&rdquo; or &ldquo;MRI images should be sparse in a <a href=https://en.wikipedia.org/wiki/Wavelet_transform>wavelet basis</a>.&rdquo; These methods do this by replacing $R_{TV}(\mathbf{x})$ with a more general $R(\mathbf{x})$, which we call a regularizer. The difficulty with classical compressed sensing is that humans must manually encode what an MRI should look like through the regularizer $R(\mathbf{x})$​. We can come up with basic heuristics like the examples above, but ultimately deciding whether an image looks like it could have come from an MRI is a complicated process. <a onclick='showHide("How do you interpret R(x) using information theory?","1")' id=1>[How do you interpret R(x) using information theory?]</a>
 <div id=hidden-1 class=explanation style=display:none>
 If you use maximum <em>a posteriori</em> estimation, you can show that $R(\mathbf{x}) \propto -\log p(\mathbf{x})$! We call $p(\mathbf{x})$ the prior distribution. So $ R(\mathbf{x})$ is really a measure of how many bits you need to encode your image $\mathbf{x}$ with your prior.
 </div>
@@ -128,7 +128,7 @@ If you use maximum <em>a posteriori</em> estimation, you can show that $R(\mathb
 <p>Enter machine learning&mldr; Over the past decade-ish, machine learning has had great success in learning functions that humans have difficulty hard coding. It has revolutionized the fields of computer vision, natural language processing, among others. Instead of hard coding functions, machine learning algorithms learn functions from data. In the next section, we will explore a few recent machine learning approaches to MRI image reconstruction.</p>
 <a onclick='showHide("Did you know Terence Tao was one of the pioneers of compressed sensing?","12")' id=12>[Did you know Terence Tao was one of the pioneers of compressed sensing?]</a>
 <div id=hidden-12 class=explanation style=display:none>
-It turns out <a href=https://en.wikipedia.org/wiki/Terence_Tao>Terence Tao</a>&rsquo;s most cited paper is from his work on compressed sensing!
+It turns out <a href=https://en.wikipedia.org/wiki/Terence_Tao>Terence Tao</a>&rsquo;s <a href=https://ieeexplore.ieee.org/abstract/document/1580791>most cited paper</a> is from his work on compressed sensing!
 </div>
 <script>function showHide(c,b){showHideIt(document.getElementById("hidden-"+b));let a=document.getElementById(b);a.innerHTML==="[hide]"?a.innerHTML="["+c+"]":a.innerHTML="[hide]"}function showHideIt(a){a.style.display==="none"?a.style.display="block":a.style.display="none"}</script>
 <h2 id=machine-learning-comes-to-the-rescue>Machine Learning Comes to the Rescue</h2>
@@ -150,8 +150,7 @@ It turns out <a href=https://en.wikipedia.org/wiki/Terence_Tao>Terence Tao</a>&r
 </figure>
 <p>We can formally write the operations performed by this network as
 $$ \mathbf{\hat{x}} = \text{UNET}_{{\boldsymbol{\theta}}}(\mathcal{F}^{-1}(\mathbf{\tilde{y}}))$$</p>
-<p>where $\mathbf{\tilde{y}}$ is the subsampled sensor data, and $\text{UNET}_{\boldsymbol{\theta}}$ is the U-Net parameterized by a vector of parameters ${\boldsymbol{\theta}}$.</p>
-<p>The parameters ${\boldsymbol{\theta}}$ of the U-Net are optimized in order to minimize the following loss function.</p>
+<p>where $\mathbf{\tilde{y}}$ is the subsampled sensor data, and $\text{UNET}_{\boldsymbol{\theta}}$ is the U-Net parameterized by a vector of parameters ${\boldsymbol{\theta}}$. The parameters ${\boldsymbol{\theta}}$ of the U-Net are optimized in order to minimize the following loss function.</p>
 <p>$$ \mathcal{L}({\boldsymbol{\theta}}) = \sum_{(\mathbf{\tilde{y}},{\mathbf{x}}^*) \in \mathcal{D}} ||\text{UNET}_{\boldsymbol{\theta}}(\mathcal{F}^{-1}(\mathbf{\tilde{y}})) - \mathbf{x^{*}} ||_1$$</p>
 <p>where $\mathbf{\tilde{y}}$ and $\mathbf{x}^*$ are subsampled sensor data and ground truth images, respectively, sampled from the dataset $\mathcal{D}$. In words, our neural network takes as its input subsampled sensor data $\mathbf{\tilde{y}}$ and tries to output $\text{UNET}_{\boldsymbol{\theta}}(\mathcal{F}^{-1}(\mathbf{\tilde{y}}))$ that is as close to the real image ${\mathbf{x}}^*$ as possible. The parameters ${\boldsymbol{\theta}}$ are optimized via gradient descent (or slightly cooler versions of gradient descent).</p>
 <p>In the figure below, we see a significant qualitative improvement in the reconstructions from the U-Net, in comparison with traditional compressed sensing with total variation regularization.</p>
@@ -161,12 +160,12 @@ $$ \mathbf{\hat{x}} = \text{UNET}_{{\boldsymbol{\theta}}}(\mathcal{F}^{-1}(\math
 </figure>
 <a onclick='showHide("Wait, but where does the training data come from?","17")' id=17>[Wait, but where does the training data come from?]</a>
 <div id=hidden-17 class=explanation style=display:none>
-<p>In 2019, Facebook AI released an MRI dataset called fastMRI (Zbontar 2018). The dataset contains 8344 brain and knee MRI scans. The scans contain raw fully sampled sensor data as well as the corresponding image reconstructions. The scans were done with a variety of MRI parameters (different pulse sequences, field strengths, repetition times, and echo times). The diversity of parameters is important: we want image reconstruction methods to work for all relevant clinical parameters. The dataset also includes 20,000 brain and knee MRI scans that only contain the reconstructed images and not the sensor data (it is also not straightforward to get the raw frequency-domain data from the images as there are multiple coils and postprocessing).</p>
+<p>In 2019, Facebook AI released an MRI dataset called <a href=http://arxiv.org/abs/1811.08839>fastMRI</a>. The dataset contains 8344 brain and knee MRI scans. The scans contain raw fully sampled sensor data as well as the corresponding image reconstructions. The scans were done with a variety of MRI parameters (different pulse sequences, field strengths, repetition times, and echo times). The diversity of parameters is important: we want image reconstruction methods to work for all relevant clinical parameters. The dataset also includes 20,000 brain and knee MRI scans that only contain the reconstructed images and not the sensor data (it is also not straightforward to get the raw frequency-domain data from the images as there are multiple coils and postprocessing).</p>
 <p>The dataset consists of both a training set and a test set. The training set is used to set the parameters of the model, and the test set is used to evaluate the model.</p>
 </div>
 <script>function showHide(c,b){showHideIt(document.getElementById("hidden-"+b));let a=document.getElementById(b);a.innerHTML==="[hide]"?a.innerHTML="["+c+"]":a.innerHTML="[hide]"}function showHideIt(a){a.style.display==="none"?a.style.display="block":a.style.display="none"}</script>
 <h3 id=varnet>VarNet</h3>
-<p>Instead of just feeding a physics-informed guess to a U-Net, VarNet uses the physics of MRI at multiple steps in its network. Recently, an <a href=https://www.ajronline.org/doi/10.2214/AJR.20.23313>interchangeability study of VarNet</a> was done. It found that using $1/4$th of the data with VarNet was diagnostically interchangeable with the ground truth reconstruction. In other words, radiologists made the same diagnoses with both methods! <a onclick='showHide("Tell me a funny story about this study","14")' id=14>[Tell me a funny story about this study]</a>
+<p>Instead of just feeding a physics-informed guess to a U-Net, VarNet uses the physics of MRI at multiple steps in its network (<a href=http://arxiv.org/abs/2004.06688>Sriram et al. 2020</a> & <a href=http://arxiv.org/abs/1704.00447>Hammernik et al. 2018</a>). Recently, an <a href=https://www.ajronline.org/doi/10.2214/AJR.20.23313>interchangeability study of VarNet</a> was done. It found that 1/4-th of the data with VarNet was diagnostically interchangeable with the ground truth reconstructions. In other words, radiologists made the same diagnoses with both methods! <a onclick='showHide("Tell me a funny story about this study","14")' id=14>[Tell me a funny story about this study]</a>
 <div id=hidden-14 class=explanation style=display:none>
 At first, the physicians thought the VarNet images didn&rsquo;t look great because the images were too smooth. So the authors added some random Gaussian noise, and then the physicians loved the images! In fact, the authors give a fancy name to their process of adding random noise; they call it &ldquo;adaptive image dithering.&rdquo;
 </div>
@@ -179,13 +178,14 @@ At first, the physicians thought the VarNet images didn&rsquo;t look great becau
 <p>So how does VarNet work? It starts with a blank image, and consists of a series of refinement steps, progressively turning the blank image into a better and better version.</p>
 <figure><img src=/ml-for-mri/varnet-diagram.png width=100%>
 </figure>
-<p>Let&rsquo;s take a look at where the refinement comes from. Recall that in classical compressed sensing, we solve the optimization problem above. If we write the forward operator $\mathbf{A}=\mathcal{M} \odot \mathcal{F}$, the optimization problem becomes</p>
+<p>Let&rsquo;s take a look at where the refinement step comes from. Recall that in classical compressed sensing, we solve the optimization problem above. Writing the forward operator $\mathbf{A}=\mathcal{M} \odot \mathcal{F}$, the optimization problem for compressed sensing becomes:</p>
 <p>$$ \argmin_{\mathbf{x}} || \mathbf{A}\mathbf{x} - \mathbf{\tilde{y}} ||_2^2 + R(\mathbf{x})$$</p>
-<p>If we solve this via gradient descent, we get the following update equation for the $t$-th iteration of the image, ${\mathbf{x}}^t$.</p>
+<p>This is not the optimization problem for VarNet, but we will use a cool trick, called unrolled optimization:</p>
+<p>If we solve the compressed sensing objective function via gradient descent, we get the following update equation for the $t$-th iteration of the image, ${\mathbf{x}}^t$.</p>
 <p>$${\mathbf{x}}^{t+1} = {\mathbf{x}}^t - \alpha^t (\mathbf{A}^*(\mathbf{A}{\mathbf{x}}^t - \mathbf{\tilde{y}}) + \nabla R({\mathbf{x}}^t))$$</p>
-<p>where $\mathbf{A}^*$ is the <a href=https://en.wikipedia.org/wiki/Conjugate_transpose>adjoint</a> of $\mathbf{A}$. Note that gradient descent in the above is done on the image $\mathbf{x}$, as opposed to ${\boldsymbol{\theta}}$ . Instead of hard coding the regularizer $R(\mathbf{x}^t)$, we can replace it with a neural network. We do this by replacing $\nabla R(\mathbf{x}^t)$ with a CNN. We get a new update equation:</p>
+<p>where $\mathbf{A}^*$ is the <a href=https://en.wikipedia.org/wiki/Conjugate_transpose>adjoint</a> of $\mathbf{A}$. Note that gradient descent in the above equation is done on the image $\mathbf{x}$, as opposed to ${\boldsymbol{\theta}}$ . Now here&rsquo;s the trick! Instead of hard coding the regularizer $R(\mathbf{x}^t)$, we can replace it with a neural network. We do this by replacing $\nabla R(\mathbf{x}^t)$ with a CNN. We get a new update equation:</p>
 <p>$${\mathbf{x}}^{t+1} = {\mathbf{x}}^t - \alpha^t \mathbf{A}^*(\mathbf{A}{\mathbf{x}}^t - \mathbf{\tilde{y}}) + \text{CNN}_{\boldsymbol{\theta}} ({\mathbf{x}}^t)$$</p>
-<p>The VarNet architecture (<a href=http://arxiv.org/abs/2004.06688>Sriram et al. 2020</a> & <a href=http://arxiv.org/abs/1704.00447>Hammernik et al. 2018</a>) consists of multiple layers. Each layer takes the output of the previous layer, ${\mathbf{x}}^t$, as its input, and outputs ${\mathbf{x}}^{t+1}$ according to the above equation. This style of architecture is called unrolled optimization. In practice, VarNet has about 8 layers, and the CNN is a U-Net. The parameters of the U-Net are updated via gradient descent on $\boldsymbol{\theta}$, but the loss function, $\mathcal{L}({\boldsymbol{\theta}})$, is taken to be the structural similarity index measure (SSIM). <a onclick='showHide("What is SSIM?","3")' id=3>[What is SSIM?]</a>
+<p>The VarNet architecture consists of multiple layers. Each layer takes the output of the previous layer, ${\mathbf{x}}^t$, as its input, and outputs ${\mathbf{x}}^{t+1}$ according to the above equation. In practice, VarNet has about 8 layers, and the CNN is a U-Net. The parameters of the U-Net are updated via gradient descent on $\boldsymbol{\theta}$, and the loss function $\mathcal{L}({\boldsymbol{\theta}})$ is taken to be the structural similarity index measure (SSIM). <a onclick='showHide("What is SSIM?","3")' id=3>[What is SSIM?]</a>
 <div id=hidden-3 class=explanation style=display:none>
 The SSIM is a measure of similarity for images that is more aligned with the human perceptual system than the mean-squared error. It compares two images across three dimensions: luminosity, contrast, and structural similarity. A great explanation of SSIM can be found in <a href=https://bluesky314.github.io/ssim/>this blog post</a>.
 </div>
@@ -204,8 +204,8 @@ $$</p>
 </div>
 <script>function showHide(c,b){showHideIt(document.getElementById("hidden-"+b));let a=document.getElementById(b);a.innerHTML==="[hide]"?a.innerHTML="["+c+"]":a.innerHTML="[hide]"}function showHideIt(a){a.style.display==="none"?a.style.display="block":a.style.display="none"}</script></p>
 <h3 id=deep-generative-priors>Deep Generative Priors</h3>
-<p>All methods above required access to a dataset that had both MRI images paired with raw sensor data. However, to my understanding, the raw sensor data is not typically saved. Constructing a dataset with only the MRI images and without the raw sensor data might be easier. Fortunately, there are machine learning methods that only require MRI images as training data.</p>
-<p>One approach is to train what is called a generative model. Generative models are very popular in the computer vision community for generating realistic human faces or scenes (that it has never seen before!). Similarly, we can train a generative model to generate new MRI-like images.</p>
+<p>All methods above required access to a dataset that had both MRI images and the raw sensor data. However, to my understanding, the raw sensor data is not typically saved. Constructing a dataset with only the MRI images and without the raw sensor data might be easier. Fortunately, there are machine learning methods that only require MRI images as training data (i.e. <a href=https://en.wikipedia.org/wiki/Unsupervised_learning>unsupervised models</a>).</p>
+<p>One approach is to train what is called a <a href=https://en.wikipedia.org/wiki/Generative_model#Deep_generative_models>generative model</a>. Generative models are very popular in the computer vision community for generating realistic human faces or scenes (that it has never seen before!). Similarly, we can train a generative model to generate new MRI-like images.</p>
 <p>Formally, a generative model is a mapping $G_{\boldsymbol{\theta}}: \mathbb{R}^m \rightarrow \mathbb{R}^n$, often with $m \ll n$ (i.e. the input space is often much smaller than the output space). The generative model learns to turn any random vector $\mathbf{z} \in \mathbb{R}^m$ into a realistic image $\mathbf{x} \in \mathbb{R}^n$.</p>
 <p>Image reconstruction with generative models is done by solving the optimization problem:
 \begin{equation}
