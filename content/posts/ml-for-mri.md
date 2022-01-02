@@ -46,7 +46,7 @@ $$
     \mathbf{\hat{x}} = \mathcal{F}^{-1}(\mathbf{y})
 $$
 
-(note, we're assuming that we're recording from a single MRI coil, but these methods can be extended to [multi-coil imaging](https://mriquestions.com/what-is-pi.html).)
+(Note, we're assuming that we're recording from a single MRI coil, but these methods can be extended to [multi-coil imaging](https://mriquestions.com/what-is-pi.html).)
 
 
 ## Using Less Data
@@ -258,27 +258,17 @@ _**A big thank you** to [Milan Cvitkovic](https://milan.cvitkovic.net/), [Stephe
 <!-- ## References
 Akçakaya, Mehmet, Steen Moeller, Sebastian Weingärtner, and Kâmil Uğurbil. 2019. “Scan-Specific Robust Artificial-Neural-Networks for K-Space Interpolation (RAKI) Reconstruction: Database-Free Deep Learning for Fast Imaging.” Magnetic Resonance in Medicine: Official Journal of the Society of Magnetic Resonance in Medicine / Society of Magnetic Resonance in Medicine 81 (1): 439–53.
 
-Alemi, Alex A., Francois Chollet, Niklas Een, Geoffrey Irving, Christian Szegedy, and Josef Urban. 2016. “DeepMath - Deep Sequence Models for Premise Selection.” arXiv [cs.AI]. arXiv. http://arxiv.org/abs/1606.04442.
-
 Barbano, Riccardo, Željko Kereta, Chen Zhang, Andreas Hauptmann, Simon Arridge, and Bangti Jin. 2020. “Quantifying Sources of Uncertainty in Deep Learning-Based Image Reconstruction.” arXiv [cs.CV]. arXiv. http://arxiv.org/abs/2011.08413.
-
-Chaudhuri, Rishidev, Berk Gerçek, Biraj Pandey, Adrien Peyrache, and Ila Fiete. 2019. “The Intrinsic Attractor Manifold and Population Dynamics of a Canonical Cognitive Circuit across Waking and Sleep.” Nature Neuroscience 22 (9): 1512–20.
 
 Cole, Elizabeth K., John M. Pauly, Shreyas S. Vasanawala, and Frank Ong. 2020. “Unsupervised MRI Reconstruction with Generative Adversarial Networks.” arXiv [eess.IV]. arXiv. http://arxiv.org/abs/2008.13065.
 
 “CS231n Convolutional Neural Networks for Visual Recognition.” n.d. Accessed November 27, 2021. https://cs231n.github.io/convolutional-networks/.
 
-Cueto, Carlos, Oscar Bates, George Strong, Javier Cudeiro, Fabio Luporini, Oscar Calderon Agudo, Gerard Gorman, Lluis Guasch, and Meng-Xing Tang. 2021. “Stride: A Flexible Platform for High-Performance Ultrasound Computed Tomography.” arXiv [physics.med-Ph]. arXiv. http://arxiv.org/abs/2110.03345.
-
 Daras, Giannis, Joseph Dean, Ajil Jalal, and Alexandros G. Dimakis. 2021. “Intermediate Layer Optimization for Inverse Problems Using Deep Generative Models.” arXiv [cs.LG]. arXiv. http://arxiv.org/abs/2102.07364.
 
 Darestani, Mohammad Zalbagi, and Reinhard Heckel. 2020a. “Accelerated MRI with Un-Trained Neural Networks.” arXiv [eess.IV]. arXiv. http://arxiv.org/abs/2007.02471.
 
-———. 2020b. “Accelerated MRI with Un-Trained Neural Networks.” arXiv [eess.IV]. arXiv. http://arxiv.org/abs/2007.02471.
-
 Defazio, Aaron, Tullie Murrell, and Michael P. Recht. 2020. “MRI Banding Removal via Adversarial Training.” arXiv [eess.IV]. arXiv. http://arxiv.org/abs/2001.08699.
-
-Deffieux, Thomas, Charlie Demene, Mathieu Pernot, and Mickael Tanter. 2018. “Functional Ultrasound Neuroimaging: A Review of the Preclinical and Clinical State of the Art.” Current Opinion in Neurobiology 50 (June): 128–35.
 
 Deora, Rahul. n.d. “A Brief Introduction to SSIM: Structural Similarity Index.” Accessed November 27, 2021. https://bluesky314.github.io/ssim/.
 
@@ -294,11 +284,7 @@ Jalal, Ajil, Marius Arvinte, Giannis Daras, Eric Price, Alexandros G. Dimakis, a
 
 Jalal, Ajil, Liu Liu, Alexandros G. Dimakis, and Constantine Caramanis. 2020. “Robust Compressed Sensing Using Generative Models.” Advances in Neural Information Processing Systems. https://github.com/ajiljalal/csgm-robust-neurips.
 
-Kaliszyk, Cezary, Josef Urban, Henryk Michalewski, and Mirek Olšák. 2018. “Reinforcement Learning of Theorem Proving.” arXiv [cs.AI]. arXiv. http://arxiv.org/abs/1805.07563.
-
 Liu, Fang, Alexey Samsonov, Lihua Chen, Richard Kijowski, and Li Feng. 2019. “SANTIS: Sampling-Augmented Neural neTwork with Incoherent Structure for MR Image Reconstruction.” Magnetic Resonance in Medicine: Official Journal of the Society of Magnetic Resonance in Medicine / Society of Magnetic Resonance in Medicine 82 (5): 1890–1904.
-
-Macé, Emilie, Gabriel Montaldo, Ivan Cohen, Michel Baulac, Mathias Fink, and Mickael Tanter. 2011. “Functional Ultrasound Imaging of the Brain.” Nature Methods 8 (8): 662–64.
 
 “Machine Learning for Image Reconstruction.” 2020. In Handbook of Medical Image Computing and Computer Assisted Intervention, 25–64. Academic Press.
 
@@ -307,14 +293,6 @@ Oksuz, Ilkay, James Clough, Aurelien Bustin, Gastao Cruz, Claudia Prieto, Rene B
 Ongie, Gregory, Ajil Jalal, Christopher A. Metzler, Richard G. Baraniuk, Alexandros G. Dimakis, and Rebecca Willett. 2020. “Deep Learning Techniques for Inverse Problems in Imaging.” arXiv [eess.IV]. arXiv. http://arxiv.org/abs/2005.06001.
 
 Pal, Arghya, and Yogesh Rathi. 2021. “A Review of Deep Learning Methods for MRI Reconstruction.” arXiv [eess.IV]. arXiv. http://arxiv.org/abs/2109.08618.
-
-Paliwal, Aditya, Sarah Loos, Markus Rabe, Kshitij Bansal, and Christian Szegedy. 2020. “Graph Representations for Higher-Order Logic and Theorem Proving.” Proceedings of the AAAI Conference on Artificial Intelligence. https://doi.org/10.1609/aaai.v34i03.5689.
-
-Polu, Stanislas, and Ilya Sutskever. 2020. “Generative Language Modeling for Automated Theorem Proving.” arXiv [cs.LG]. arXiv. http://arxiv.org/abs/2009.03393.
-
-Rabe, Markus N., Dennis Lee, Kshitij Bansal, and Christian Szegedy. 2020. “Mathematical Reasoning via Self-Supervised Skip-Tree Training.” arXiv Preprint arXiv:2006. 04757. https://openreview.net/pdf?id=xhKm6VAQmm8.
-
-Radford, Alec, Jong Wook Kim, Chris Hallacy, Aditya Ramesh, Gabriel Goh, Sandhini Agarwal, Girish Sastry, et al. 2021. “Learning Transferable Visual Models From Natural Language Supervision.” arXiv [cs.CV]. arXiv. http://arxiv.org/abs/2103.00020.
 
 Recht, Michael P., Jure Zbontar, Daniel K. Sodickson, Florian Knoll, Nafissa Yakubova, Anuroop Sriram, Tullie Murrell, et al. 2020. “Using Deep Learning to Accelerate Knee MRI at 3 T: Results of an Interchangeability Study.” AJR. American Journal of Roentgenology 215 (6): 1421–29.
 
@@ -325,9 +303,5 @@ Song, Yang, Jascha Sohl-Dickstein, Diederik P. Kingma, Abhishek Kumar, Stefano E
 Sriram, Anuroop, Jure Zbontar, Tullie Murrell, Aaron Defazio, C. Lawrence Zitnick, Nafissa Yakubova, Florian Knoll, and Patricia Johnson. 2020. “End-to-End Variational Networks for Accelerated MRI Reconstruction.” arXiv [eess.IV]. arXiv. http://arxiv.org/abs/2004.06688.
 
 Ulyanov, Dmitry, Andrea Vedaldi, and Victor Lempitsky. 2017. “Deep Image Prior.” arXiv [cs.CV]. arXiv. http://arxiv.org/abs/1711.10925.
-
-Wagner, Adam Zsolt. 2021. “Constructions in Combinatorics via Neural Networks.” arXiv [math.CO]. arXiv. http://arxiv.org/abs/2104.14516.
-
-Williams, Alex, Erin Kunz, Simon Kornblith, and Scott Linderman. 2021. “Generalized Shape Metrics on Neural Representations.” Advances in Neural Information Processing Systems 34. https://proceedings.neurips.cc/paper/2021/file/252a3dbaeb32e7690242ad3b556e626b-Paper.pdf.
 
 Zbontar, Jure, Florian Knoll, Anuroop Sriram, Tullie Murrell, Zhengnan Huang, Matthew J. Muckley, Aaron Defazio, et al. 2018. “fastMRI: An Open Dataset and Benchmarks for Accelerated MRI.” arXiv [cs.CV]. arXiv. http://arxiv.org/abs/1811.08839. -->
