@@ -74,7 +74,7 @@ More of the information in the signal is contained in the low frequencies, so we
 
 So our dreams of using less frequencies are over, right?
 
-What if we add more information to the image reconstruction process that is not from the current measurement $\mathbf{\tilde{y}} $? For example, in compressed sensing, we can assume that the desired image $\mathbf{x}$ doesn't have many edges (i.e. that we can "compress" the edges). Here's a knee MRI along with its edge map, which we see is very sparse:
+What if we add more information to the image reconstruction process that is not from the current measurement $\mathbf{\tilde{y}} $? For example, in compressed sensing, we can assume that the desired image $\mathbf{x}$ doesn't have many edges (i.e., that we can "compress" the edges). Here's a knee MRI along with its edge map, which we see is very sparse:
 
 {{<figure src="/ml-for-mri/knee-edges.png" width="75%">}}
 
@@ -87,7 +87,7 @@ $$
 \argmin_{\mathbf{x}} || \mathcal{M} \odot \mathcal{F}(\mathbf{x}) - \mathbf{\tilde{y}} ||_2^2 + R _{TV}(\mathbf{x})
 $$
 
-where $ || . ||_2 $ is the [L2 norm](https://en.wikipedia.org/wiki/Norm_(mathematics)#Euclidean_norm) (i.e. $||z||_2^2 = \sum_i |z_i|^2 $). The left term says: "If $\mathbf{x}$ were the real image, how would the sensor data we'd capture from $\mathbf{x}$ compare with our real sensor data $\mathbf{\tilde{y}}$?" In other words, it tells us how much our reconstruction $\mathbf{x}$ agrees with our measurements $\mathbf{\tilde{y}}$. The right term $R _ {TV} (\mathbf{x})$ penalizes images if they are too edgy. The challenge is finding an image that both agrees with our measurements and isn't too edgy. Algorithms like gradient descent allows us to solve the optimization problem above. {{<hide prompt="What is gradient descent?" uniqueNum="16" >}}
+where $ || . ||_2 $ is the [L2 norm](https://en.wikipedia.org/wiki/Norm_(mathematics)#Euclidean_norm) (i.e., $||z||_2^2 = \sum_i |z_i|^2 $). The left term says: "If $\mathbf{x}$ were the real image, how would the sensor data we'd capture from $\mathbf{x}$ compare with our real sensor data $\mathbf{\tilde{y}}$?" In other words, it tells us how much our reconstruction $\mathbf{x}$ agrees with our measurements $\mathbf{\tilde{y}}$. The right term $R _ {TV} (\mathbf{x})$ penalizes images if they are too edgy. The challenge is finding an image that both agrees with our measurements and isn't too edgy. Algorithms like gradient descent allows us to solve the optimization problem above. {{<hide prompt="What is gradient descent?" uniqueNum="16" >}}
 
 Gradient descent is an iterative algorithm to minimze some function $\mathcal{L}(\boldsymbol{\theta})$. It starts at some initial parameters ${\boldsymbol{\theta}}^{(0)}$ and updates its parameters in the direction of the gradient, $\nabla L({\boldsymbol{\theta}})$, so as to locally reduce the loss function as much as possible. In the $t$-th iteration, ${\boldsymbol{\theta}}^t$ is updated to ${\boldsymbol{\theta}}^{t+1}$ via
 $$
@@ -215,20 +215,20 @@ $$
 
 
 ### Deep Generative Priors
-All methods above required access to a dataset that had both MRI images and the raw sensor data. However, to my understanding, the raw sensor data is not typically saved. Constructing a dataset with only the MRI images and without the raw sensor data might be easier. Fortunately, there are machine learning methods that only require MRI images as training data (i.e. [unsupervised models](https://en.wikipedia.org/wiki/Unsupervised_learning)). 
+All methods above required access to a dataset that had both MRI images and the raw sensor data. However, to my understanding, the raw sensor data is not typically saved on clinical MRIs. Constructing a dataset with only the MRI images and without the raw sensor data might be easier. Fortunately, there are machine learning methods that only require MRI images as training data (i.e., [unsupervised models](https://en.wikipedia.org/wiki/Unsupervised_learning)). 
 
 One approach is to train what is called a [generative model](https://en.wikipedia.org/wiki/Generative_model#Deep_generative_models). Generative models are very popular in the computer vision community for generating realistic human faces or scenes (that it has never seen before!). Similarly, we can train a generative model to generate new MRI-like images.
 
-Formally, a generative model is a mapping $G_{\boldsymbol{\theta}}: \mathbb{R}^m \rightarrow \mathbb{R}^n$, often with $m \ll n$ (i.e. the input space is often much smaller than the output space). The generative model learns to turn any random vector $\mathbf{z} \in \mathbb{R}^m$ into a realistic image $\mathbf{x} \in \mathbb{R}^n$.
+A generative MRI model is a function $G_{\boldsymbol{\theta}}$ that tries to turns any random vector $\mathbf{z} \in \mathbb{R}^m$ into a realistic image $\mathbf{x} \in \mathbb{R}^n$. Typicaly,  $m \ll n$, i.e., the input space is often much smaller than the output space. 
 
 Image reconstruction with generative models is done by solving the optimization problem:
 \begin{equation}
     \argmin_{\mathbf{z}} ||\mathbf{A} G_{\boldsymbol{\theta}}(\mathbf{z}) - \mathbf{\tilde{y}}||_2^2
 \end{equation}
 
-Instead of optimizing over all images $x \in \mathbb{R}^n$, we optimize only over the images produced by the generator, $G_{\boldsymbol{\theta}}(\mathbb{R}^m)$. Since $m \ll n$, the range of the generator, $G_{\boldsymbol{\theta}}(\mathbb{R}^m)$, is much smaller than $\mathbb{R}^n$. {{<hide prompt="What if m=n?" uniqueNum="19">}}It turns out it can still work if we use early stopping! This says something deep about the optimization landscape. Early stopping still implicitly restricts the range of the generator.{{</hide>}}
+Instead of optimizing over all images $x \in \mathbb{R}^n$, we optimize only over the images produced by the generator, $G_{\boldsymbol{\theta}}(\mathbb{R}^m)$. Since $m \ll n$, the range of the generator $G_{\boldsymbol{\theta}}(\mathbb{R}^m)$ is much smaller than $\mathbb{R}^n$. {{<hide prompt="What if m=n?" uniqueNum="19">}}It turns out it can still work if we use early stopping! This says something deep about the optimization landscape. Early stopping still implicitly restricts the range of the generator.{{</hide>}}
 
-An important question is how well do these models generalize outside of their training set. This is especially important for diagnosing rare conditions that might not appear in the training set. [Jalal et al.](http://arxiv.org/abs/2108.01368) recently showed that you can get pretty extraordinary generalization using a type of generative model called a [score-based generative model](https://yang-song.github.io/blog/2021/score/). As seen in the results below, they train their model on brain data and test it on a completely different anatomy -- in this case the abdomen! Their model performs much better in this case than other approaches.
+An important question is how well these models generalize outside of their training set. This is especially important for diagnosing rare conditions that might not appear in the training set. [Jalal et al. 2021](http://arxiv.org/abs/2108.01368) recently showed that you can get pretty extraordinary generalization using a type of generative model called a [score-based generative model](https://yang-song.github.io/blog/2021/score/). As seen in the results below, they train their model on brain data and test it on a completely different anatomy -- in this case the abdomen! Their model performs much better in this case than other approaches.
 
 {{<figure src="/ml-for-mri/dgp.png" width="75%" caption=`**Reconstructions of 2D abdominal scans at 4x acceleration for methods trained on brain MRI data.** The red arrows points to artifacts in the images. The deep generative prior method from [Jalal 2021](http://arxiv.org/abs/2108.01368) does not have the artifacts from the other methods. Results from [Jalal 2021](http://arxiv.org/abs/2108.01368).`>}}
 
@@ -240,11 +240,11 @@ Imagine we get drunk again and forget to feed our machine learning model any dat
 
 How do you explain this? First, let's see how these models work. These no-data methods start with the deep generative priors approach in the previous section. But instead of using data to train the generator $G_{\boldsymbol{\theta}}(\mathbf{z})$, we set the parameters ${\boldsymbol{\theta}}$ randomly. The structure of these ML models -- the fact that they're made of convolutions, for example -- make it such that without any data, realistic images are more likely to be generated than random noise.
 
-This is remarkable! And confusing! We started off by saying that machine learning removes the need to manually engineer regularizers for compressed sensing. But instead, we are manually engineering the architectures of machine learning models! How much are these machine learning models really learning?
+This is remarkable! And confusing! We started off by saying that machine learning removes the need to manually engineer regularizers for compressed sensing. But instead, we are manually engineering the architectures of machine learning models! How much are these machine learning models *really* learning?
 
-It turns out, such untrained models have been applied to other inverse problems like region inpainting, denoising, and super resolution, and [achieved remarkable results](http://arxiv.org/abs/1711.10925).
+It turns out, such untrained models have been applied to other inverse problems like region inpainting, denoising, and super resolution, and they have achieved [remarkable results](http://arxiv.org/abs/1711.10925).
 
-{{<figure src="/ml-for-mri/convdecoder.png" width="75%" caption=`**Comparison of the untrained [ConvDecoder](http://arxiv.org/abs/2007.02471) with the [fastMRI U-net baseline](http://arxiv.org/abs/1811.08839), and total-variation regularized compressed sensing.** Reconstructions of knee-MRI at 4x acceleration. The second row is a zoomed in version of the first row. We see that even though ConvDecoder is untrained, it produces better reconstructions than U-Net and TV-regularized compressed sensing. Figure reproduced from [Darestani et al. 2020](http://arxiv.org/abs/2007.02471).`>}}
+{{<figure src="/ml-for-mri/convdecoder.png" width="75%" caption=`**Comparison of the untrained [ConvDecoder](http://arxiv.org/abs/2007.02471) with the [U-Net MRI](http://arxiv.org/abs/1811.08839), and total-variation regularized compressed sensing.** Reconstructions of knee-MRI at 4x acceleration. The second row is a zoomed in version of the first row. We see that even though ConvDecoder is untrained, it produces better reconstructions than U-Net and TV-regularized compressed sensing. Figure reproduced from [Darestani et al. 2020](http://arxiv.org/abs/2007.02471).`>}}
 
 ## Concluding Thoughts
 Machine learning methods have made significant progress in reducing the scan time of MRI. Not only have ML methods for compressed sensing produced strong results on quantitative metrics like SSIM, but they have started to be [validated by clinicians](https://www.ajronline.org/doi/10.2214/AJR.20.23313). Validation by clinicians is essential in image reconstruction because a fine detail can be essential in a diagnosis but might not make its way into a metric like the mean-squared-error.
@@ -253,7 +253,7 @@ A limitation to deep learning for healthcare is that we still don't have a good 
 
 In addition to MRI, machine learning methods have also been used for other forms of image reconstruction. A great review can be found [here](http://arxiv.org/abs/2005.06001).
 
-_**A big thank you** to [Milan Cvitkovic](https://milan.cvitkovic.net/), [Hannah Le](https://twitter.com/hannah_1e), and [Marley Xiong](https://marleyx.com) for reviewing drafts of this._
+_**A big thank you** to [Milan Cvitkovic](https://milan.cvitkovic.net/), [Stephen Fay](https://stephenfay.xyz/), Jonathan Kalinowski, [Hannah Le](https://twitter.com/hannah_1e), and [Marley Xiong](https://marleyx.com) for reviewing drafts of this._
 
 <!-- ## References
 Akçakaya, Mehmet, Steen Moeller, Sebastian Weingärtner, and Kâmil Uğurbil. 2019. “Scan-Specific Robust Artificial-Neural-Networks for K-Space Interpolation (RAKI) Reconstruction: Database-Free Deep Learning for Fast Imaging.” Magnetic Resonance in Medicine: Official Journal of the Society of Magnetic Resonance in Medicine / Society of Magnetic Resonance in Medicine 81 (1): 439–53.
