@@ -100,7 +100,7 @@ You might worry that gradient descent gets stuck in local minima, but in practic
 
 {{</hide >}}
 
-Though compressed sensing can improve the image quality relative to a vanilla inverse Fourier transform, it still suffers from artifacts. Below is another knee MRI with 4x subsampled data, and compares the vanilla inverse fourier transform with TV-compressed sensing ([source](http://arxiv.org/abs/1811.08839)):
+Though compressed sensing can improve the image quality relative to a vanilla inverse Fourier transform, it still suffers from artifacts. We see below on a 4x subsampled knee MRI that TV regularization makes some improvements over the inverse Fourier transform ([source](http://arxiv.org/abs/1811.08839)):
 
 {{< figure src="/ml-for-mri/CS.png" width="75%">}}
 
