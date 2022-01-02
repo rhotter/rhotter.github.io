@@ -180,7 +180,7 @@ At first, the physicians thought the VarNet images didn&rsquo;t look great becau
 </figure>
 <p>Let&rsquo;s take a look at where the refinement step comes from. Recall that in classical compressed sensing, we solve the optimization problem above. Writing the forward operator $\mathbf{A}=\mathcal{M} \odot \mathcal{F}$, the optimization problem for compressed sensing becomes:</p>
 <p>$$ \argmin_{\mathbf{x}} || \mathbf{A}\mathbf{x} - \mathbf{\tilde{y}} ||_2^2 + R(\mathbf{x})$$</p>
-<p>This is not the optimization problem for VarNet, but we will use a cool trick, called unrolled optimization:</p>
+<p>This is not the optimization problem for VarNet, but we will use a cool trick called unrolled optimization:</p>
 <p>If we solve the compressed sensing objective function via gradient descent, we get the following update equation for the $t$-th iteration of the image, ${\mathbf{x}}^t$.</p>
 <p>$${\mathbf{x}}^{t+1} = {\mathbf{x}}^t - \alpha^t (\mathbf{A}^*(\mathbf{A}{\mathbf{x}}^t - \mathbf{\tilde{y}}) + \nabla R({\mathbf{x}}^t))$$</p>
 <p>where $\mathbf{A}^*$ is the <a href=https://en.wikipedia.org/wiki/Conjugate_transpose>adjoint</a> of $\mathbf{A}$. Note that gradient descent in the above equation is done on the image $\mathbf{x}$, as opposed to ${\boldsymbol{\theta}}$ . Now here&rsquo;s the trick! Instead of hard coding the regularizer $R(\mathbf{x}^t)$, we can replace it with a neural network. We do this by replacing $\nabla R(\mathbf{x}^t)$ with a CNN. We get a new update equation:</p>
