@@ -34,4 +34,4 @@ Hello! I'm a full-time hot chocolate enjoyer, part-time brain hacker. I don't kn
 
 **Favourite theorem/lemma:** [Johnson-Lindenstrauss lemma](https://en.m.wikipedia.org/wiki/Johnson–Lindenstrauss_lemma)
 
-**Favourite communities:** [Interact](https://joininteract.com/), [Neo](http://neo.com/), [McGill Neurotech](https://www.facebook.com/McGillNeurotech), Incepto, [Pioneer](https://pioneer.app/), [School 2.0](https://bio.school2point0.com/)
+**Favourite communities:** [Interact](https://joininteract.com/), [Neo](http://neo.com/), [McGill Neurotech](https://www.facebook.com/McGillNeurotech), Incepto, [Pioneer](https://pioneer.app/), [ISEF](https://www.societyforscience.org/isef/)/[CWSF](https://youthscience.ca/science-fairs/cwsf), [School 2.0](https://bio.school2point0.com/)
