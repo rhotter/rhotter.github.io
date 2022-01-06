@@ -34,4 +34,6 @@ Hello! I'm a full-time hot chocolate enjoyer, part-time brain hacker. I don't kn
 
 **Favourite theorem/lemma:** [Johnson-Lindenstrauss lemma](https://en.m.wikipedia.org/wiki/Johnson–Lindenstrauss_lemma)
 
+**Favourite mathematical object:** [Erdős–Rényi graph](https://en.wikipedia.org/wiki/Erd%C5%91s%E2%80%93R%C3%A9nyi_model)
+
 **Favourite communities:** [Interact](https://joininteract.com/), [Neo](http://neo.com/), [McGill Neurotech](https://www.facebook.com/McGillNeurotech), Incepto, [Pioneer](https://pioneer.app/), [ISEF](https://www.societyforscience.org/isef/)/[CWSF](https://youthscience.ca/science-fairs/cwsf), [School 2.0](https://bio.school2point0.com/)
