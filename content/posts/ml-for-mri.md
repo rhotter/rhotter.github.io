@@ -255,6 +255,9 @@ In addition to MRI, machine learning methods have also been used for other forms
 
 _**A big thank you** to [Milan Cvitkovic](https://milan.cvitkovic.net/), [Stephen Fay](https://stephenfay.xyz/), Jonathan Kalinowski, [Hannah Le](https://twitter.com/hannah_1e), and [Marley Xiong](https://marleyx.com) for reviewing drafts of this._
 
+
+_Discuss this piece on [Hacker News](https://news.ycombinator.com/item?id=29775136) or [Twitter](https://twitter.com/raffi_hotter/status/1477468782440460289?s=20)._
+
 <!-- ## References
 Akçakaya, Mehmet, Steen Moeller, Sebastian Weingärtner, and Kâmil Uğurbil. 2019. “Scan-Specific Robust Artificial-Neural-Networks for K-Space Interpolation (RAKI) Reconstruction: Database-Free Deep Learning for Fast Imaging.” Magnetic Resonance in Medicine: Official Journal of the Society of Magnetic Resonance in Medicine / Society of Magnetic Resonance in Medicine 81 (1): 439–53.
 
