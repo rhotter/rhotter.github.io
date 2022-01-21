@@ -46,7 +46,7 @@ $$
     \mathbf{\hat{x}} = \mathcal{F}^{-1}(\mathbf{y})
 $$
 
-(Note, we're assuming that we're recording from a single MRI coil, but these methods can be extended to [multi-coil imaging](https://mriquestions.com/what-is-pi.html).)
+(Note, we're assuming that we're recording from a single MRI coil with uniform sensitivity, but these methods can be extended to [multi-coil imaging](https://mriquestions.com/what-is-pi.html) with non-uniform sensitivity maps.)
 
 
 ## Using Less Data
