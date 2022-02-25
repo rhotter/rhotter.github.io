@@ -5,6 +5,7 @@ body {
     color: #333;
     line-height: 1.6;
     font-size: 16px; */
+    font-size: 1.2em;
     background-color: rgb(245, 244, 235);
 }
 
@@ -72,3 +73,18 @@ blockquote {
     margin-right: 15px;
 }
 
+.explanation {
+    border-left: 4px solid rgb(148, 85, 3);;
+    padding-left: 15px;
+}
+
+a:hover {
+    cursor: pointer
+}
+
+figcaption {
+    font-size: 0.8em;
+    text-align: left;
+    padding-left: 12.5%;
+    padding-right: 12.5%;
+}

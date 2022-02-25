@@ -2,13 +2,19 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://rhotter.github.io/posts/</loc>
-    <lastmod>2021-12-06T18:14:20-05:00</lastmod>
+    <loc>https://rhotter.github.io/posts/ml-for-mri/</loc>
+    <lastmod>2022-01-01T13:19:56-05:00</lastmod>
   </url><url>
-    <loc>https://rhotter.github.io/posts/questions/</loc>
-    <lastmod>2021-12-06T18:14:20-05:00</lastmod>
+    <loc>https://rhotter.github.io/posts/</loc>
+    <lastmod>2022-01-01T13:19:56-05:00</lastmod>
   </url><url>
     <loc>https://rhotter.github.io/</loc>
+    <lastmod>2022-01-01T13:19:56-05:00</lastmod>
+  </url><url>
+    <loc>https://rhotter.github.io/posts/math-in-brain/</loc>
+    <lastmod>2021-12-18T20:19:43-05:00</lastmod>
+  </url><url>
+    <loc>https://rhotter.github.io/posts/questions/</loc>
     <lastmod>2021-12-06T18:14:20-05:00</lastmod>
   </url><url>
     <loc>https://rhotter.github.io/posts/hot-chocolate/</loc>
