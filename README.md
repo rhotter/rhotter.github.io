@@ -3,3 +3,4 @@ Run locally
 
 Build
 `hugo -D`
+test
