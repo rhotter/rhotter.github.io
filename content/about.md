@@ -44,4 +44,4 @@ Hello! I'm a full-time hot chocolate enjoyer, part-time brain hacker. I don't kn
 
 ---
 
-Thanks Anna for your help creating this website! The website uses a modified [Ezhil theme](https://github.com/vividvilla/ezhil).
+Thanks [Anna](https://abrandenberger.github.io) for your help creating this website! The website uses a modified [Ezhil theme](https://github.com/vividvilla/ezhil).
