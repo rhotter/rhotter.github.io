@@ -27,16 +27,7 @@ I love collaborating with people. [Reach out](mailto:raphael.hotter@gmail.com?su
 * [Marley Xiong](https://marleyx.com)
 * [School 2.0 folks](https://bio.school2point0.com)! -->
 
-**Favourite blogs**
-
-- [Celine Halioua](https://www.celinehh.com/)
-- [Christopher Olah](https://colah.github.io)
-- [Derek Sivers](https://sive.rs/)
-- [Linus Lee](https://thesephist.com/)
-- [Math3ma](https://www.math3ma.com/)
-- [Milan Cvitkovic](https://milan.cvitkovic.net/)
-- [Terence Tao](https://terrytao.wordpress.com/)
-- [xcorr](https://xcorr.net/)
+**Favourite blogs:** [Celine Halioua](https://www.celinehh.com/), [Christopher Olah](https://colah.github.io), [Derek Sivers](https://sive.rs/), [Linus Lee](https://thesephist.com/), [Math3ma](https://www.math3ma.com/), [Milan Cvitkovic](https://milan.cvitkovic.net/), [Terence Tao](https://terrytao.wordpress.com/), [xcorr](https://xcorr.net/)
 
 **Favourite theorem/lemma:** [Johnson-Lindenstrauss lemma](https://en.m.wikipedia.org/wiki/Johnson–Lindenstrauss_lemma)
 
