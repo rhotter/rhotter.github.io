@@ -7,7 +7,9 @@ type: "page"
 
 Hello! I'm a full-time hot chocolate enjoyer, part-time brain hacker. I don't know who I am, so this is the best I've got for now.
 
-[Reach out](mailto:raphael.hotter@gmail.com?subject=Hello!!) to talk about chocolate, brains, or math.
+I'm building [Curius.app](https://curius.app) with [M](https://marleyx.com)&[A](https://abrandenberger.github.io).
+
+I love collaborating with people. [Reach out](mailto:raphael.hotter@gmail.com?subject=Hello!!) if you want to meet!
 
 ---
 
