@@ -17,7 +17,7 @@ I love collaborating with people. [Reach out](mailto:raphael.hotter@gmail.com?su
 
 - [Milo](https://www.youtube.com/watch?v=_46AoSnHCRo), a brain-controlled wheelchair
 - [School 2.0](https://school2point0.com), an experiment in peer learning
-- [Breeze](https://www.youtube.com/watch?v=5ufh_80dSsk&t=2s&ab_channel=Breeze), a low-cost ventilator
+- [Breeze](https://youtu.be/4-jjhEgUjkQ), a low-cost ventilator
 
 ---
 
