@@ -5,7 +5,7 @@ date: 2021-12-02T18:19:31-05:00
 type: "page"
 ---
 
-Hello! I'm a full-time hot chocolate enjoyer, part-time brain hacker. I don't know who I am, so this is the best I've got for now.
+Hello! I'm a full-time [hot chocolate enjoyer](https://rhotter.github.io/posts/hot-chocolate), part-time brain hacker. I don't know who I am, so this is the best I've got for now.
 
 I'm building [Curius.app](https://curius.app) with [M](https://marleyx.com)&[A](https://abrandenberger.github.io).
 
