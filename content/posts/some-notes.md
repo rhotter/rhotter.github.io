@@ -44,7 +44,9 @@ What strategies do you find work best? Are there any good books on this?
 
 11\. A friend said there’s a phase transition in a company when they reach their Series B fundraise. After Series B, employees realize that the company will succeed with or without them. So they start prioritizing what they want over what the company wants: they work less, they want to be promoted, etc.
 
-12\. Companies own more than just a product — they own a neighborhood around their product. If someone else copies their product and makes only a slight change, people won’t switch to their product. The change needs to be significant. Within the neighborhood that the company owns, the company has design power. For example, Slack does not send notifications if someone reacts with an emoji to your message. It’s unlikely that a Slack duplicate with emoji notifications will succeed in a market where Slack exists. This is a small not-super-significant example but there are many examples like these.
+12\. Companies own more than just a product — they own a neighborhood around their product. If someone else copies their product and makes only a slight change, people won’t switch to their product. The change needs to be significant. Within the neighborhood that the company owns, the company has design power. For example, Slack does not send notifications if someone reacts with an emoji to your message. It’s unlikely that a Slack duplicate with emoji notifications will succeed in a market where Slack exists.
+
+The decisions a company makes within their neighborhood are crucial! More/less ethical versions of the same company could fall in the same neighborhood.
 
 13\. Crying is an honest report about how you’re feeling. In a world with so many people being fake, crying is one of the few authentic emotions we have left.
 
