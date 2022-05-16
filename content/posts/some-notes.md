@@ -40,7 +40,7 @@ What strategies do you find work best? Are there any good books on this?
 
 9\. You should hold onto your priors loosely when someone tells you how they feel. Oftentimes I’m tempted to think “what happened shouldn’t make you feel that way” but it’s likely that my priors are just wrong.
 
-10\. I don’t that Judaism has a points system for good deeds. It’s called Mitzvahs. Instead of doing something good because it’s good in and of itself, the good deed becomes a selfish act to increase your score. For example, when I went to visit my ill grandmother, my mom said “that’s a big mitzvah.”
+10\. I don’t like that Judaism has a points system for good deeds. It’s called Mitzvahs. Instead of doing something good because it’s good in and of itself, the good deed becomes a selfish act to increase your score. For example, when I went to visit my ill grandmother, my mom said “that’s a big mitzvah.”
 
 11\. A friend said there’s a phase transition in a company when they reach their Series B fundraise. After Series B, employees realize that the company will succeed with or without them. So they start prioritizing what they want over what the company wants: they work less, they want to be promoted, etc.
 
