@@ -10,7 +10,7 @@ I write these scribbles every few weeks and share them with a few friends. I dec
 
 1\. There are two ways to view your gut. One way is that it’s primitive, so you shouldn’t trust it. The other way is that it’s highly complex — smarter than your rational self, and your rational self just rationalizes what your gut thinks. I believe the second.
 
-2\. One way of getting someone to be vulnerable with you is to ask “Do you want to be vulnerable with each other?”
+2\. To get someone to be vulnerable with you, you can ask “Do you want to be vulnerable with each other?”
 
 3\. Who are the types of people who are drawn to community houses? Do they tend to have good relationships with their families?
 
@@ -36,7 +36,7 @@ What strategies do you find work best? Are there any good books on this?
 
 7\. There are two types of unkindness: being cold and having bad morals. A friend said that they’re okay with being friends with people who are cold, so long as they have good morals.
 
-8\. Market makers are like PID controllers.
+8\. Market makers are like [PID controllers](https://en.wikipedia.org/wiki/PID_controller).
 
 9\. You should hold onto your priors loosely when someone tells you how they feel. Oftentimes I’m tempted to think “what happened shouldn’t make you feel that way” but it’s likely that my priors are just wrong.
 
@@ -52,17 +52,17 @@ What strategies do you find work best? Are there any good books on this?
 
 15\. Grades are useful in that they force you to commit to a class. You won’t give up when something is hard or not fun because if you do, you won’t get a good grade.
 
-16\. In-person vs remote is really about synchronous vs asynchronous in my opinion.
+16\. In-person vs remote is really about synchronous vs asynchronous.
 
 17\. Why do humans like looking at old photos? Is there any evolutionary basis for nostalgia?
 
 18\. “A trailblazer with a generous heart for all living beings” was written on a tombstone I saw. I thought this was awesome.
 
-19\. My brain hurts a tiny bit when I’m close to coming up with a question. If my brain could talk, it would tell me, “Raffi, can’t you just believe that your model of the world is sufficient? Why are you making me do more work?” One hack for me is to keep a note called “Questions about X,” which gives me permission to ask questions.
+19\. My brain hurts a tiny bit when I’m close to coming up with a question. If my brain could talk, it would tell me, “Raffi, isn't your model of the world sufficient? Why are you making me do more work?” One hack for me is to keep a note called “Questions about X,” which gives me permission to ask questions.
 
 20\. Justin Gilbert says he likes doing things that [don’t have a playbook](https://masterplan.substack.com/p/master-plan-justin-glibert-foundation?curius=521%2C3%2C1599%2C1294%2C1417%2C30%2C1419&s=r). AI research has a playbook because people have done it before. Software startups — even though they’re hard — have playbooks. There was no playbook for SpaceX.
 
-21\. I hate how I search for validation. My search for validation explains why I was nervous to meet people I looked up to. What if they don’t like me? Twitter is partly to blame for my search for validation: on Twitter, you’re only exposed to one slice of a person. People aren’t as different from you as you think they are.
+21\. I hate how I search for validation. My search for validation explains why I was nervous to meet people I looked up to. What if they don’t like me? Twitter is partly to blame for my search for validation: on Twitter, you’re only exposed to one slice of a person. In reality, people aren’t as different from you as you think they are.
 
 22\. When I used to go to SF parties, I would tell people about the low-cost brain scanner I was working on. People were wowed and I liked that (though I didn’t like that I liked that). Now, I’ve become illegible — not just at SF parties, but to my family, my friends, and even myself. It’s hard to be legible when you’re in exploration mode.
 
