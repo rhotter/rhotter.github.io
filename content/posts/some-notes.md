@@ -1,10 +1,12 @@
 ---
-title: "Some Notes"
+title: "Some Scribbles"
 date: 2022-05-15T23:55:23-04:00
 draft: false
 ---
 
 _I would love if you added comments! You can do so using the {{<rawhtml>}}<a href="https://curius.app" target="_blank">Curius</a>{{</rawhtml>}} chrome extension._
+
+I write these scribbles every few weeks and share them with a few friends. I decided to try making one public.
 
 1\. There are two ways to view your gut. One way is that it’s primitive, so you shouldn’t trust it. The other way is that it’s highly complex — smarter than your rational self, and your rational self just rationalizes what your gut thinks. I believe the second.
 
