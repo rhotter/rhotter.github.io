@@ -26,9 +26,9 @@ I write these scribbles every few weeks and share them with a few friends. I dec
 
 They proceed to tell me what they’ve been struggling with.
 
-6\. How do you help a friend who is going through a hard time? You can try to give advice. You could ask questions — instead of explicit advice — to help them work through the problem.
+6\. How do you help a friend who is going through a hard time? You can try to give advice. You can ask questions — instead of explicit advice — to help them work through the problem.
 
-Or you could just “be there” for your friend and support them. How do you “be there” though? There’s the “just listen” approach. In the “just listen” approach, it’s not enough to just listen; you need to ask questions which get them to share.
+Or you can just “be there” for your friend and support them. How do you “be there” though? There’s the “just listen” approach. In the “just listen” approach, it’s not enough to just listen; you need to ask questions which get them to share.
 
 You can give them a hug if you’re in person. You can resort to cliches and tell your friend “you’ll get through this” (which might be underrated). You can check in with your friend later to show them that you care.
 
