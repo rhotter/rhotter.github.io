@@ -54,7 +54,7 @@ The decisions a company makes within their neighborhood are crucial! More/less e
 
 15\. Grades are useful in that they force you to commit to a class. You won’t give up when something is hard or not fun because if you do, you won’t get a good grade.
 
-16\. In-person vs remote is really about synchronous vs asynchronous.
+16\. The biggest difference between in-person and remote work is that in-person is synchronous and remote is asynchronous.
 
 17\. Why do humans like looking at old photos? Is there any evolutionary basis for nostalgia?
 
