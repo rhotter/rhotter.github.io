@@ -12,7 +12,7 @@ Where do people go to play? There is no time or incentive to explore in school �
 
 Side projects can be great for play, but they often take a backseat to school or work. Moreover, there are rarely things in our physical environment that remind us to play[^1] and it’s difficult to find a community to play with.
 
-School 2.0 — a 26-person group house we ran in New Mexico — was filled with play. We turned the kitchen into a museum of pasta-stick constellations and random objects hanging from the ceiling. Marley, Noah, and Vincent woke up one day, confused about shapes. Why are certain shapes more aesthetically pleasing than others? Somehow this led to them making a neural network that generated new shapes.
+[School 2.0](https://school2point0.com) — a 26-person group house we ran in New Mexico — was filled with play. We turned the kitchen into a museum of pasta-stick constellations and random objects hanging from the ceiling. Marley, Noah, and Vincent woke up one day, confused about shapes. Why are certain shapes more aesthetically pleasing than others? Somehow this led to them making a neural network that generated new shapes.
 
 {{<rawhtml>}}
 
