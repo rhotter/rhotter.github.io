@@ -6,6 +6,8 @@ _build:
   list: false
 ---
 
+![S2](/play-at-s2/s2-people.gif)
+
 Where do people go to play? There is no time or incentive to explore in school — you’re worried about your next assignment or exam, and want to get the best grade that you can. At work, you have an instrumental purpose — making your company money, publishing papers, etc. Hackathons used to be a place for play, but they've [turned into corporate events](https://jzhao.xyz/posts/hackathons/?ref=home).
 
 Side projects can be great for play, but they often take a backseat to school or work. Moreover, there are rarely things in our physical environment that remind us to play[^1] and it’s difficult to find a community to play with.
