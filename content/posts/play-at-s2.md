@@ -46,7 +46,9 @@ Geffen and Steve wondered what it would be like to live in a flying house, so th
 </div>
 {{</rawhtml>}}
 
-Why was there so much play? We had demos every week, which showed people what play looked like. Our physical environment reminded us to play: we were surrounded by horses you could feed whenever you wanted, mountains you can climb, whiteboards everywhere. There was also great self-selection. It took a high level of openness and willingness to adventure to come to the middle of New Mexico with 25 strangers during a pandemic. There was no status at School 2.0.[^2] There were no corporate sponsors who told you to build serious stuff.
+Why was there so much play? We had demos every week, which showed people what play looked like. Our physical environment reminded us to play: we were surrounded by horses you could feed whenever you wanted, mountains you can climb, whiteboards everywhere. There was also great self-selection. It took a high level of openness and willingness to adventure to come to the middle of New Mexico with 25 strangers during a pandemic.
+
+Typical inhibitors of play were not present. There was no status at School 2.0, so you didn't need to impress people with your fancy companies.[^2] There were no corporate sponsors who told you to build serious stuff.
 
 Most importantly, Marley and I valued play, and communities have a way of trickling its founders’ values down to the whole community.
 
