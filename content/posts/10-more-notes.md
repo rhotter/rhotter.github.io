@@ -1,6 +1,6 @@
 ---
 title: "10 More Notes"
-date: 2022-05-20T15:33:54-04:00
+date: 2022-05-24T15:33:54-04:00
 draft: false
 ---
 
