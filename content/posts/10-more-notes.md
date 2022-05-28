@@ -1,10 +1,14 @@
 ---
 title: "10 More Notes"
 date: 2022-05-27T15:33:54-04:00
-draft: true
+# draft: false
+_build:
+  list: false
 ---
 
-_I would love if you added comments! I absolutely loved the discussion on my last set of notes. You can add comments using the {{<rawhtml>}}<a href="https://curius.app" target="_blank">Curius</a>{{</rawhtml>}} chrome extension._
+_I would love if you added comments! I absolutely loved the discussion on my last set of notes. You can add comments using the {{<rawhtml>}}<a href="https://curius.app" target="_blank">Curius</a>{{</rawhtml>}} chrome extension.[^1]_
+
+[^1]: A hack to see everyone's comments: you can search for "10 More Notes" on Curius and click on that link.
 
 1\. Internships are overrated IMO. You learn much more working on personal projects than during most internships. Internships are about prestige, not learning.
 
