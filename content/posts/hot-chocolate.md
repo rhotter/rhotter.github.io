@@ -24,6 +24,7 @@ This list isn't for you if you don't like dark and thick hot chocolate.
 ### Boston
 
 - [LA Burdick](https://goo.gl/maps/i318PjbkZ57e6jXy8)
+- [Thinking Cup](https://g.page/thinking-cup-tremont?share)
 
 ### Taos
 
@@ -37,4 +38,4 @@ This list isn't for you if you don't like dark and thick hot chocolate.
 
 ---
 
-Have any to add? I'd love to [hear from you](mailto:raphael.hotter@gmail.com)!
+Any others I should visit? I'd love to [hear from you](mailto:raphael.hotter@gmail.com)!
