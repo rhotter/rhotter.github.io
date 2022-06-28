@@ -33,8 +33,6 @@ I love collaborating with people. [Reach out](mailto:raphael.hotter@gmail.com?su
 
 **Favourite mathematical object:** [Erdős–Rényi graph](https://en.wikipedia.org/wiki/Erd%C5%91s%E2%80%93R%C3%A9nyi_model)
 
-**Favourite communities:** [Interact](https://joininteract.com/), [Neo](http://neo.com/), [McGill Neurotech](https://www.facebook.com/McGillNeurotech), Incepto, [Pioneer](https://pioneer.app/), [ISEF](https://www.societyforscience.org/isef/)/[CWSF](https://youthscience.ca/science-fairs/cwsf), [School 2.0](https://bio.school2point0.com/)
-
----
+**Favourite communities:** [Interact](https://joininteract.com/), [School 2.0](https://bio.school2point0.com/), [McGill Neurotech](https://www.facebook.com/McGillNeurotech), Incepto, science fair community ([ISEF](https://www.societyforscience.org/isef/)/[CWSF](https://youthscience.ca/science-fairs/cwsf))
 
 Thanks [Anna](https://abrandenberger.github.io) for your help creating this website! The website uses a modified [Ezhil theme](https://github.com/vividvilla/ezhil).
