@@ -7,9 +7,11 @@ type: "page"
 
 Hello! I'm a full-time [hot chocolate enjoyer](https://rhotter.github.io/posts/hot-chocolate), part-time brain hacker. I don't know who I am, so this is the best I've got for now.
 
-I'm building [Curius.app](https://curius.app) with [M](https://marleyx.com)&[A](https://abrandenberger.github.io).
+I'm a researcher at the [Cohen Lab](http://cohenweb.rc.fas.harvard.edu/index.html).
 
 I love collaborating with people. [Reach out](mailto:raphael.hotter@gmail.com?subject=Hello!!) if you want to meet!
+
+See what I'm reading on [Curius](https://curius.app/raffi-hotter)!
 
 ---
 
@@ -17,7 +19,7 @@ I love collaborating with people. [Reach out](mailto:raphael.hotter@gmail.com?su
 
 - [Milo](https://www.youtube.com/watch?v=_46AoSnHCRo), a brain-controlled wheelchair
 - [School 2.0](https://school2point0.com), an experiment in peer learning
-- [Breeze](https://youtu.be/4-jjhEgUjkQ), a low-cost ventilator
+- [Breeze](https://github.com/breeze-ventilator/covid19-ventilator), a low-cost ventilator
 
 ---
 
@@ -35,4 +37,4 @@ I love collaborating with people. [Reach out](mailto:raphael.hotter@gmail.com?su
 
 **Favourite communities:** [Interact](https://joininteract.com/), [School 2.0](https://bio.school2point0.com/), [McGill Neurotech](https://www.facebook.com/McGillNeurotech), Incepto, science fair community ([ISEF](https://www.societyforscience.org/isef/)/[CWSF](https://youthscience.ca/science-fairs/cwsf))
 
-Thanks [Anna](https://abrandenberger.github.io) for your help creating this website! The website uses a modified [Ezhil theme](https://github.com/vividvilla/ezhil).
+Thanks [Anna](https://abrandenberger.github.io) for hacking on this website with me! The website uses a modified [Ezhil theme](https://github.com/vividvilla/ezhil).
