@@ -5,36 +5,12 @@ date: 2021-12-02T18:19:31-05:00
 type: "page"
 ---
 
-Hello! I'm a full-time [hot chocolate enjoyer](https://rhotter.github.io/posts/hot-chocolate), part-time brain hacker. I don't know who I am, so this is the best I've got for now.
+I am currently a research fellow at the [Cohen Lab](https://cohenweb.rc.fas.harvard.edu/) at Harvard. My goal is to build magical brain computer interfaces for humanity.
 
-I'm a researcher at the [Cohen Lab](http://cohenweb.rc.fas.harvard.edu/index.html).
+I'm most proud of the communities I helped build, like [School 2.0](https://school2point0.com) — a 26-person group house in New Mexico. [Marley](https://marleyx.com), [Aayush](https://aayushg.com/), and I recently started a group house in Cambridge, MA — message me if you're in town and need a free place to stay or want to come for Sunday dinner!
 
-I love collaborating with people. [Reach out](mailto:raphael.hotter@gmail.com?subject=Hello!!) if you want to meet!
-
-See what I'm reading on [Curius](https://curius.app/raffi-hotter)!
+In the past, I studied math, computer science, and a touch of physics and neuroscience at McGill. In the past past, I loved taking part in science fairs and won 2nd place in Physics at ISEF.
 
 ---
 
-**Some past projects**
-
-- [Milo](https://www.youtube.com/watch?v=_46AoSnHCRo), a brain-controlled wheelchair
-- [School 2.0](https://school2point0.com), an experiment in peer learning
-- [Breeze](https://github.com/breeze-ventilator/covid19-ventilator), a low-cost ventilator
-
----
-
-<!-- **Friends with websites**
-* [Santi Aranguri](https://aranguri.wordpress.com/)
-* [Anna Brandenberger](https://abrandenberger.github.io)
-* [Marley Xiong](https://marleyx.com)
-* [School 2.0 folks](https://bio.school2point0.com)! -->
-
-**Favourite blogs:** [Celine Halioua](https://www.celinehh.com/), [Christopher Olah](https://colah.github.io), [Derek Sivers](https://sive.rs/), [Linus Lee](https://thesephist.com/), [Math3ma](https://www.math3ma.com/), [Milan Cvitkovic](https://milan.cvitkovic.net/), [Terence Tao](https://terrytao.wordpress.com/), [xcorr](https://xcorr.net/)
-
-**Favourite theorem/lemma:** [Johnson-Lindenstrauss lemma](https://en.m.wikipedia.org/wiki/Johnson–Lindenstrauss_lemma)
-
-**Favourite mathematical object:** [Erdős–Rényi graph](https://en.wikipedia.org/wiki/Erd%C5%91s%E2%80%93R%C3%A9nyi_model)
-
-**Favourite communities:** [Interact](https://joininteract.com/), [School 2.0](https://bio.school2point0.com/), [McGill Neurotech](https://www.facebook.com/McGillNeurotech), Incepto, science fair community ([ISEF](https://www.societyforscience.org/isef/)/[CWSF](https://youthscience.ca/science-fairs/cwsf))
-
-Thanks [Anna](https://abrandenberger.github.io) for hacking on this website with me! The website uses a modified [Ezhil theme](https://github.com/vividvilla/ezhil).
+[Twitter](https://twitter.com/raffi_hotter) - [Curius](https://curius.app/raffi-hotter) -  [GitHub](https://github.com/rhoter) - [raphael.hotter@gmail.com](emailto:raphael.hotter@gmail.com)
