@@ -13,4 +13,4 @@ In the past, I studied math, computer science, and a touch of physics and neuros
 
 ---
 
-[Twitter](https://twitter.com/raffi_hotter) - [Curius](https://curius.app/raffi-hotter) -  [GitHub](https://github.com/rhoter) - [raphael.hotter@gmail.com](emailto:raphael.hotter@gmail.com)
+[Twitter](https://twitter.com/raffi_hotter) - [Curius](https://curius.app/raffi-hotter) -  [GitHub](https://github.com/rhoter) - [raphael.hotter@gmail.com](mailto:raphael.hotter@gmail.com)
